@@ -50,22 +50,7 @@ class cmake_build(build):
         """
         Config and build third party dependencies.
         """
-        commands = [
-                "third_party/build.py cgal",
-                "third_party/build.py eigen",
-                "third_party/build.py triangle",
-                "third_party/build.py tetgen",
-                "third_party/build.py clipper",
-                "third_party/build.py qhull",
-                "third_party/build.py cork",
-                #"third_party/build.py carve",
-                "third_party/build.py draco",
-                "third_party/build.py tbb",
-                "third_party/build.py mmg",
-                "third_party/build.py json",
-                ];
-        for c in commands:
-            check_call(c.split())
+        check_call("third_party/build.py all".split())
 
     def build_pymesh(self):
         """
@@ -195,7 +180,7 @@ setup(
             "scripts/uv.py",
             "scripts/voxelize.py",
             ],
-        url = "https://github.com/qnzhou/PyMesh",
-        download_url="https://github.com/qnzhou/PyMesh",
+        url = "https://github.com/MonolithAILtd/PyMesh",
+        download_url="https://github.com/MonolithAILtd/PyMesh",
         distclass=BinaryDistribution,
         )

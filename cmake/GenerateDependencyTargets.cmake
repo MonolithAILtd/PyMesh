@@ -291,9 +291,10 @@ if (TETWILD_FOUND AND PYMESH_USE_TETWILD
 endif ()
 
 
-if (FAST_WINDING_NUMBER_FOUND AND PYMESH_USE_FastWindingNumber
+if (FASTWINDINGNUMBER_FOUND AND PYMESH_USE_FastWindingNumber
         AND TARGET PyMesh::third_party::TBB
         AND NOT TARGET PyMesh::third_party::FastWindingNumber)
+    message("Including Fast Winding Number")    
     add_library(PyMesh::third_party::FastWindingNumber INTERFACE IMPORTED)
     target_include_directories(PyMesh::third_party::FastWindingNumber SYSTEM
         INTERFACE ${FAST_WINDING_NUMBER_INCLUDE_DIRS})

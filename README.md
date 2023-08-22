@@ -18,24 +18,6 @@ for creating minimalistic and easy to use interfaces.
 
 [Latest documentation](http://pymesh.readthedocs.org/en/latest/)
 
-### Quick try ###
-
-Perhaps the easiest way of trying out PyMesh is through
-[docker](https://www.docker.com/):
-
-    docker run -it pymesh/pymesh
-    Python 3.6.4 (default, Feb 17 2018, 09:32:33)
-    [GCC 4.9.2] on linux
-    Type "help", "copyright", "credits" or "license" for more information.
-    >>> import pymesh
-
-For example, to run [meshstat.py](scripts/meshstat.py):
-
-    docker run -it --rm -v `pwd`:/models pymesh/pymesh meshstat.py -x /models/model.obj
-
-This command mounts your current working directory to the `/models` directory
-in a docker container and executes the `meshstat.py` script on the mesh file
-`model.obj` in the current directory.
 
 ### Download Source ###
 
@@ -46,6 +28,10 @@ To retrieve the code:
     git submodule update --init
 
 ### Dependencies ###
+
+Ubuntu cgal dependencies 
+
+    sudo apt-get install libmpfr-dev libgmp-dev libboost-all-dev
 
 PyMesh has the following required dependencies:
 
@@ -117,7 +103,7 @@ variables:
 * Draco: Set ``Draco_PATH`` to the install directory of Draco.
 * MMG: Set ``MMG_PATH`` to the install directory of MMG.
 
-### Build ###
+### Build Manually ###
 
 Let `$PYMESH_PATH` be the root directory of the repository.
 The first step is to compile the optional third party dependencies:
@@ -144,24 +130,16 @@ Make sure all unit tests are passed before using the library.
 
 ### Install ###
 
-The output of building PyMesh consists a set of C++ libraries and a python
-module. Installing the C++ library is currently not available.  However,
-installing the python package can be done:
+Building and installing the python package can be done entirely with the `setup.py` file:
 
     ./setup.py build # This an alternative way of calling cmake/make
     ./setup.py install
 
+alternatively you can build a wheel (preferred) 
+
+    python setup.py bdist_wheel
+    pip install dist/pymesh2*.whl
+
 To check PyMesh is installed correctly, run the following python unit tests::
 
     python -c "import pymesh; pymesh.test()"
-
-Once again, make sure all unit tests are passed, and report any unit test
-failures.
-
-### Feedback ###
-
-Thank you for using PyMesh!  Please consider help PyMesh improve by leaving
-[feedback]!
-
-[teaser]: docs/_static/pymesh_teaser.jpg
-[feedback]: https://docs.google.com/forms/d/e/1FAIpQLSc8YAzx1SL4t3qntzahYd0igPNGyIxw6N8eRs-PloYlwbPaXg/viewform?usp=pp_url

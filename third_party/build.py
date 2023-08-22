@@ -14,7 +14,7 @@ import sys
 def get_third_party_dependencies():
     return ["cgal", "cork", "eigen",
         "tetgen", "triangle", "qhull", "clipper", "draco",
-        "tbb", "mmg", "json"]
+        "tbb", "mmg", "json", 'WindingNumber']
 
 def parse_args():
     parser = argparse.ArgumentParser(__doc__);
@@ -40,6 +40,7 @@ def build_generic(libname, build_flags="", cleanup=True):
             " -DCMAKE_POSITION_INDEPENDENT_CODE=On" + \
             build_flags + \
             " -DCMAKE_INSTALL_PREFIX={}/python/pymesh/third_party/".format(pymesh_dir);
+    # print(cmd)
     subprocess.check_call(cmd.split(), cwd=build_dir);
 
     # Build cgal

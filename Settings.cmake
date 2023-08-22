@@ -15,7 +15,7 @@ make_directory(${EXECUTABLE_OUTPUT_PATH})
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
 # Include customized FindPackage scripts
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
 
 # Set PIC
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -45,7 +45,10 @@ option(PYMESH_USE_TRIANGLE   "Enable Triangle support"   ${TRIANGLE_FOUND})
 option(PYMESH_USE_UMFPACK    "Enable Umfpack support"    ${UMFPACK_FOUND})
 option(PYMESH_USE_SPARSEHASH "Enable SparseHash support" ${SPARSEHASH_FOUND})
 option(PYMESH_USE_FastWindingNumber "Enable Fast Winding Number support"
-    ${FAST_WINDING_NUMBER_FOUND})
+    ${FASTWINDINGNUMBER_FOUND})
+    
+message(PYMESH_USE_FastWindingNumber=${PYMESH_USE_FastWindingNumber})
+message(FAST_WINDING_NUMBER_FOUND=${FASTWINDINGNUMBER_FOUND})
 include(GenerateDependencyTargets)
 
 # Need support for C++14.

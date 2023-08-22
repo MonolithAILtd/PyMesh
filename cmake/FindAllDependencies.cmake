@@ -130,7 +130,7 @@ endif (NOT LAPACK_FOUND)
 # Geogram
 if (NOT GEOGRAM_FOUND)
     set(GEOGRAM_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/python/pymesh/third_party)
-    find_package(Geogram QUIET)
+    find_package(Geogram QUIET)    
 endif (NOT GEOGRAM_FOUND)
 
 # Draco
@@ -144,7 +144,7 @@ if (NOT TetWild_FOUND)
 endif ()
 
 # Fast winding number
-if (NOT FastWindingNumber_FOUND)
+if (NOT FASTWINDINGNUMBER_FOUND)
     find_package(FastWindingNumber QUIET)
 endif ()
 
