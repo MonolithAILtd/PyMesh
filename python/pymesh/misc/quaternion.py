@@ -1,9 +1,10 @@
 import numpy as np
 from numpy.linalg import norm, svd
-from math import pi,sin,cos,atan2,sqrt
+from math import pi, sin, cos, atan2, sqrt
+
 
 class Quaternion:
-    """ This class implements quaternion used for 3D rotations.
+    """This class implements quaternion used for 3D rotations.
 
     Attributes:
         w (``float``): same as ``quaternion[0]``.
@@ -18,7 +19,7 @@ class Quaternion:
 
     @classmethod
     def fromAxisAngle(cls, axis, angle):
-        """ Crate quaternion from axis angle representation
+        """Crate quaternion from axis angle representation
 
         Args:
             angle (``float``): Angle in radian.
@@ -31,17 +32,19 @@ class Quaternion:
             * ``quat`` (:class:`Quaternion`): The corresponding quaternion object.
         """
         axis = axis / norm(axis)
-        quat = np.array([
-            cos(angle/2),
-            sin(angle/2)*axis[0],
-            sin(angle/2)*axis[1],
-            sin(angle/2)*axis[2]
-            ])
+        quat = np.array(
+            [
+                cos(angle / 2),
+                sin(angle / 2) * axis[0],
+                sin(angle / 2) * axis[1],
+                sin(angle / 2) * axis[2],
+            ]
+        )
         return cls(quat)
 
     @classmethod
     def fromData(cls, v1, v2):
-        """ Create the rotation to rotate v1 to v2
+        """Create the rotation to rotate v1 to v2
 
         Args:
             v1 (``numpy.ndarray``): From vector. Normalization not necessary.
@@ -59,8 +62,8 @@ class Quaternion:
         c = np.dot(v1, v2)
         if c < -1.0 + eps:
             # v1 is parallel and opposite of v2
-            u,s,v = svd(np.array([v1, v2]))
-            axis = v[2,:]
+            u, s, v = svd(np.array([v1, v2]))
+            axis = v[2, :]
         else:
             axis = np.cross(v1, v2)
             l = norm(axis)
@@ -76,14 +79,12 @@ class Quaternion:
         return cls(quat)
 
     def norm(self):
-        """ Quaternion norm.
-        """
+        """Quaternion norm."""
         n = norm(self.__quat)
         return n
 
     def normalize(self):
-        """ Normalize quaterion to have length 1.
-        """
+        """Normalize quaterion to have length 1."""
         n = self.norm()
         if n == 0:
             print(self.__quat)
@@ -101,7 +102,7 @@ class Quaternion:
         self.__quat[i] = val
 
     def __mul__(self, other):
-        """ Multiplication: ``self`` * ``other``
+        """Multiplication: ``self`` * ``other``
 
         Args:
             ``other`` (:class:`Quaternion` or ``numpy.ndarray``): If it is of
@@ -110,14 +111,14 @@ class Quaternion:
         r = Quaternion()
         a = self
         b = other
-        r[0] = a[0]*b[0] - a[1]*b[1] - a[2]*b[2] - a[3]*b[3]
-        r[1] = a[0]*b[1] + a[1]*b[0] + a[2]*b[3] - a[3]*b[2]
-        r[2] = a[0]*b[2] - a[1]*b[3] + a[2]*b[0] + a[3]*b[1]
-        r[3] = a[0]*b[3] + a[1]*b[2] - a[2]*b[1] + a[3]*b[0]
+        r[0] = a[0] * b[0] - a[1] * b[1] - a[2] * b[2] - a[3] * b[3]
+        r[1] = a[0] * b[1] + a[1] * b[0] + a[2] * b[3] - a[3] * b[2]
+        r[2] = a[0] * b[2] - a[1] * b[3] + a[2] * b[0] + a[3] * b[1]
+        r[3] = a[0] * b[3] + a[1] * b[2] - a[2] * b[1] + a[3] * b[0]
         return r
 
     def __rmul__(self, other):
-        """ Multiplication: ``other`` * ``self``
+        """Multiplication: ``other`` * ``self``
 
         This method is called only if other is not a :class:`Quaternion`.
 
@@ -128,37 +129,52 @@ class Quaternion:
         r = Quaternion()
         a = other
         b = self
-        r[0] = a[0]*b[0] - a[1]*b[1] - a[2]*b[2] - a[3]*b[3]
-        r[1] = a[0]*b[1] + a[1]*b[0] + a[2]*b[3] - a[3]*b[2]
-        r[2] = a[0]*b[2] - a[1]*b[3] + a[2]*b[0] + a[3]*b[1]
-        r[3] = a[0]*b[3] + a[1]*b[2] - a[2]*b[1] + a[3]*b[0]
+        r[0] = a[0] * b[0] - a[1] * b[1] - a[2] * b[2] - a[3] * b[3]
+        r[1] = a[0] * b[1] + a[1] * b[0] + a[2] * b[3] - a[3] * b[2]
+        r[2] = a[0] * b[2] - a[1] * b[3] + a[2] * b[0] + a[3] * b[1]
+        r[3] = a[0] * b[3] + a[1] * b[2] - a[2] * b[1] + a[3] * b[0]
         return r
 
     def to_matrix(self):
-        """ Convert to rotational matrix.
+        """Convert to rotational matrix.
 
         Returns:
             ``numpy.ndarray``: The corresponding rotational matrix.
         """
         a = self.__quat
-        return np.array([
-            [1 - 2*a[2]*a[2] -2*a[3]*a[3], 2*a[1]*a[2] - 2*a[3]*a[0], 2*a[1]*a[3] + 2*a[2]*a[0]],
-            [2*a[1]*a[2] + 2*a[3]*a[0], 1 - 2*a[1]*a[1] -2*a[3]*a[3], 2*a[2]*a[3] - 2*a[1]*a[0]],
-            [2*a[1]*a[3] - 2*a[2]*a[0], 2*a[2]*a[3] + 2*a[1]*a[0], 1 - 2*a[1]*a[1] -2*a[2]*a[2]],
-            ])
+        return np.array(
+            [
+                [
+                    1 - 2 * a[2] * a[2] - 2 * a[3] * a[3],
+                    2 * a[1] * a[2] - 2 * a[3] * a[0],
+                    2 * a[1] * a[3] + 2 * a[2] * a[0],
+                ],
+                [
+                    2 * a[1] * a[2] + 2 * a[3] * a[0],
+                    1 - 2 * a[1] * a[1] - 2 * a[3] * a[3],
+                    2 * a[2] * a[3] - 2 * a[1] * a[0],
+                ],
+                [
+                    2 * a[1] * a[3] - 2 * a[2] * a[0],
+                    2 * a[2] * a[3] + 2 * a[1] * a[0],
+                    1 - 2 * a[1] * a[1] - 2 * a[2] * a[2],
+                ],
+            ]
+        )
 
     def conjugate(self):
-        """ returns the conjugate of this quaternion, does nothing to self.
-        """
-        return Quaternion([
-            self.__quat[0],
-            -1 * self.__quat[1],
-            -1 * self.__quat[2],
-            -1 * self.__quat[3]
-            ])
+        """returns the conjugate of this quaternion, does nothing to self."""
+        return Quaternion(
+            [
+                self.__quat[0],
+                -1 * self.__quat[1],
+                -1 * self.__quat[2],
+                -1 * self.__quat[3],
+            ]
+        )
 
     def rotate(self, v):
-        """ Rotate 3D vector v by this quaternion
+        """Rotate 3D vector v by this quaternion
 
         Args:
             ``v`` (``numpy.ndarray``): Must be 1D vector.
@@ -186,4 +202,3 @@ class Quaternion:
     @property
     def z(self):
         return self.__quat[3]
-

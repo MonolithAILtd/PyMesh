@@ -2,18 +2,11 @@ from pymesh.TestCase import TestCase
 import pymesh
 import numpy as np
 
+
 class MeshTest(TestCase):
     def test_tet_connectivity(self):
-        vertices = np.array([
-            [0, 0, 0],
-            [1, 0, 0],
-            [0, 1, 0],
-            [1, 1, 0],
-            [0, 0, 1] ])
-        voxels = np.array([
-            [0, 2, 1, 4],
-            [1, 2, 3, 4]
-            ])
+        vertices = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0], [1, 1, 0], [0, 0, 1]])
+        voxels = np.array([[0, 2, 1, 4], [1, 2, 3, 4]])
         mesh = pymesh.form_mesh(vertices, np.array([]), voxels)
         mesh.enable_connectivity()
 
@@ -25,9 +18,9 @@ class MeshTest(TestCase):
         self.assert_array_equal([0], mesh.get_voxel_adjacent_voxels(1))
 
     def test_hex_connectivity(self):
-        mesh = pymesh.generate_box_mesh([0.0, 0.0, 0.0], [1.0, 1.0, 1.0],
-                num_samples=2,
-                using_simplex=False)
+        mesh = pymesh.generate_box_mesh(
+            [0.0, 0.0, 0.0], [1.0, 1.0, 1.0], num_samples=2, using_simplex=False
+        )
         mesh.enable_connectivity()
 
         self.assertEqual(27, mesh.num_vertices)
@@ -44,15 +37,8 @@ class MeshTest(TestCase):
         self.assertEqual(3, len(mesh.get_voxel_adjacent_voxels(7)))
 
     def test_2D_area_attribute(self):
-        vertices = np.array([
-            [0.0, 0.0],
-            [1.0, 0.0],
-            [0.0, 1.0] ])
-        faces = np.array([
-            [0, 1, 2],
-            [0, 0, 1],
-            [1, 0, 2]
-            ])
+        vertices = np.array([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0]])
+        faces = np.array([[0, 1, 2], [0, 0, 1], [1, 0, 2]])
 
         mesh = pymesh.form_mesh(vertices, faces)
         mesh.add_attribute("face_area")
@@ -65,15 +51,8 @@ class MeshTest(TestCase):
         self.assertAlmostEqual(-0.5, areas[2])
 
     def test_3D_area_attribute(self):
-        vertices = np.array([
-            [0.0, 0.0, 0.1],
-            [1.0, 0.0, 0.1],
-            [0.0, 1.0, 0.1] ])
-        faces = np.array([
-            [0, 1, 2],
-            [0, 0, 1],
-            [1, 0, 2]
-            ])
+        vertices = np.array([[0.0, 0.0, 0.1], [1.0, 0.0, 0.1], [0.0, 1.0, 0.1]])
+        faces = np.array([[0, 1, 2], [0, 0, 1], [1, 0, 2]])
 
         mesh = pymesh.form_mesh(vertices, faces)
         mesh.add_attribute("face_area")
@@ -84,4 +63,3 @@ class MeshTest(TestCase):
         self.assertAlmostEqual(0.5, areas[0])
         self.assertAlmostEqual(0, areas[1])
         self.assertAlmostEqual(0.5, areas[2])
-

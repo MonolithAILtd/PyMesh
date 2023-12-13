@@ -6,6 +6,7 @@ from .remove_duplicated_vertices import remove_duplicated_vertices_raw
 from .generate_box_mesh import split_hex_into_tets, split_hex_into_tets_symmetrically
 from .generate_box_mesh import subdivide_hex
 
+
 def hex_to_tet(mesh, keep_symmetry=False, subdiv_order=0):
     """
     Convert hex mesh into tet mesh.
@@ -20,7 +21,7 @@ def hex_to_tet(mesh, keep_symmetry=False, subdiv_order=0):
     Returns:
         The resulting tet mesh.
     """
-    assert(mesh.num_voxels > 0)
+    assert mesh.num_voxels > 0
     num_vertices = 0
     vertices = []
     tets = []
@@ -30,11 +31,9 @@ def hex_to_tet(mesh, keep_symmetry=False, subdiv_order=0):
         subcell_corners = subdivide_hex(corners, subdiv_order)
         for corners in subcell_corners:
             if keep_symmetry:
-                cell_vertices, cell_elems =\
-                        split_hex_into_tets_symmetrically(corners)
+                cell_vertices, cell_elems = split_hex_into_tets_symmetrically(corners)
             else:
-                cell_vertices, cell_elems =\
-                        split_hex_into_tets(corners)
+                cell_vertices, cell_elems = split_hex_into_tets(corners)
             vertices.append(cell_vertices)
             tets.append(cell_elems + num_vertices)
             num_vertices += len(cell_vertices)

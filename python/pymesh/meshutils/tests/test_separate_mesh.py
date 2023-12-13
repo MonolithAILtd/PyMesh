@@ -6,6 +6,7 @@ from pymesh.TestCase import TestCase
 
 import numpy as np
 
+
 class SeparateMeshTest(TestCase):
     def test_simple(self):
         mesh_1 = generate_box_mesh(np.zeros(3), np.ones(3))
@@ -20,18 +21,23 @@ class SeparateMeshTest(TestCase):
             self.assertEqual(12, comp.num_faces)
 
     def test_face_connectivity(self):
-        vertices = np.array([
-            [0, 0, 0],
-            [1, 0, 0],
-            [0, 1, 0],
-            [0, 0, 1],
-            [1, 1, 1],
-            ], dtype=float)
+        vertices = np.array(
+            [
+                [0, 0, 0],
+                [1, 0, 0],
+                [0, 1, 0],
+                [0, 0, 1],
+                [1, 1, 1],
+            ],
+            dtype=float,
+        )
 
-        faces = np.array([
-            [0, 1, 2],
-            [2, 3, 4],
-            ])
+        faces = np.array(
+            [
+                [0, 1, 2],
+                [2, 3, 4],
+            ]
+        )
 
         mesh = form_mesh(vertices, faces)
         components = separate_mesh(mesh, "vertex")

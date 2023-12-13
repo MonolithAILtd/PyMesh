@@ -4,16 +4,17 @@ from pymesh.TestCase import TestCase
 import numpy as np
 import scipy.sparse.linalg
 
+
 class AssemblerTest(TestCase):
     def single_triangle_2D_setup(self):
-        vertices = np.array([
-            [0.0, 0.0],
-            [1.0, 0.0],
-            [0.0, 1.0],
-            ])
-        faces = np.array([
-            [0, 1, 2]
-            ])
+        vertices = np.array(
+            [
+                [0.0, 0.0],
+                [1.0, 0.0],
+                [0.0, 1.0],
+            ]
+        )
+        faces = np.array([[0, 1, 2]])
         mesh = form_mesh(vertices, faces)
         material = Material.create_isotropic(2, 1.0, 1.0, 0.0)
         assembler = Assembler(mesh, material)
@@ -67,6 +68,4 @@ class AssemblerTest(TestCase):
 
         # The default material should yield identity elasticity tensor.
         I = scipy.sparse.eye(assembler.mesh.dim * (assembler.mesh.dim + 1) / 2)
-        self.assertAlmostEqual(0.0, scipy.sparse.linalg.norm(E-I))
-
-
+        self.assertAlmostEqual(0.0, scipy.sparse.linalg.norm(E - I))

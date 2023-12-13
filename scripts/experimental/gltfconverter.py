@@ -1,5 +1,5 @@
 # Sam Kellman-Wanzer
-# File converter that takes a gltf file and converts it back to 
+# File converter that takes a gltf file and converts it back to
 # A graphical file format supported by PyMesh
 
 import pygltflib
@@ -25,18 +25,18 @@ b_position = gltf.buffers[bv_position.buffer]
 
 b_indices = gltf.buffers[bv_indices.buffer]
 
-magic = 'data:application/octet-stream;base64,'
-data_position = base64.b64decode(b_position.uri[len(magic):])
-data_indices = base64.b64decode(b_indices.uri[len(magic):])
+magic = "data:application/octet-stream;base64,"
+data_position = base64.b64decode(b_position.uri[len(magic) :])
+data_indices = base64.b64decode(b_indices.uri[len(magic) :])
 
-c_vertices = unpack('f'*int(len(data_position)/4), data_position)
+c_vertices = unpack("f" * int(len(data_position) / 4), data_position)
 
-c_indices = unpack('H'*int(len(data_indices)/2), data_indices)
+c_indices = unpack("H" * int(len(data_indices) / 2), data_indices)
 
 f_vertices = np.asarray(c_vertices)
 f_faces = np.asarray(c_indices)
 
-mesh = pymesh.form_mesh(f_vertices.reshape(-3,3), f_faces.reshape(-3,3))
+mesh = pymesh.form_mesh(f_vertices.reshape(-3, 3), f_faces.reshape(-3, 3))
 
 
 print("enter the name of the file to save")

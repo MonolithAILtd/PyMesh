@@ -11,15 +11,17 @@ from subprocess import check_output, check_call
 import re
 import tempfile
 
+
 def parse_args():
     parser = argparse.ArgumentParser(__doc__)
     parser.add_argument("wheels", help="The target wheel file.", nargs="+")
     return parser.parse_args()
 
+
 def patch_wheel(wheel_file):
     wheel_dir, wheel_filename = os.path.split(wheel_file)
     __, ext = os.path.splitext(wheel_file)
-    if (ext != ".whl"):
+    if ext != ".whl":
         return
 
     # Extract wheel into tmp dir.
@@ -38,8 +40,7 @@ def patch_wheel(wheel_file):
     for lib_file in os.listdir(lib_dir):
         if pymesh_lib_pattern.match(lib_file) is None:
             continue
-        cmd = "./package_dependencies.py {}".format(
-                os.path.join(lib_dir, lib_file))
+        cmd = "./package_dependencies.py {}".format(os.path.join(lib_dir, lib_file))
         check_call(cmd.split(), cwd="/root/PyMesh/docker/patches")
 
     cmd = "rm -rf {}".format(os.path.join(extraction_dir, "pymesh/third_party"))
@@ -56,11 +57,13 @@ def patch_wheel(wheel_file):
     cmd = "rm -rf {}".format(extraction_dir)
     check_call(cmd.split())
 
+
 def main():
     args = parse_args()
     for wheel_file in args.wheels:
-        assert(os.path.exists(wheel_file))
+        assert os.path.exists(wheel_file)
         patch_wheel(os.path.abspath(wheel_file))
+
 
 if __name__ == "__main__":
     main()

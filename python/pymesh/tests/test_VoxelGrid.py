@@ -2,6 +2,7 @@ from pymesh.TestCase import TestCase
 from pymesh import VoxelGrid
 from pymesh.meshutils import generate_icosphere
 
+
 class VoxelGridTest(TestCase):
     def test_sphere(self):
         mesh = generate_icosphere(2.0, [0.0, 0.0, 0.0])

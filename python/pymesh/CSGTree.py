@@ -2,8 +2,9 @@ import PyMesh
 import numpy as np
 from .meshio import form_mesh
 
+
 class CSGTree:
-    """ Contructive Solid Geometry Tree.
+    """Contructive Solid Geometry Tree.
 
     Perhaps the best way of describing supported operations is using context
     free grammar:
@@ -52,6 +53,7 @@ class CSGTree:
         ...     })
         >>> mesh = tree.mesh
     """
+
     def __init__(self, tree):
         """
         Args:
@@ -64,14 +66,13 @@ class CSGTree:
         elif "mesh" in tree:
             # leaf case
             mesh = tree["mesh"]
-            self.tree = PyMesh.CSGTree.create_leaf("igl",
-                    mesh.vertices, mesh.faces)
+            self.tree = PyMesh.CSGTree.create_leaf("igl", mesh.vertices, mesh.faces)
         elif "union" in tree:
             num_operands = len(tree["union"])
             if num_operands == 1:
                 self.tree = CSGTree(tree["union"][0]).tree
             elif num_operands == 2:
-                children = [ CSGTree(subtree) for subtree in tree["union"] ]
+                children = [CSGTree(subtree) for subtree in tree["union"]]
                 self.tree = PyMesh.CSGTree.create("igl")
                 self.tree.set_operand_1(children[0].tree)
                 self.tree.set_operand_2(children[1].tree)
@@ -91,7 +92,7 @@ class CSGTree:
             if num_operands == 1:
                 self.tree = CSGTree(tree["intersection"][0]).tree
             elif num_operands == 2:
-                children = [ CSGTree(subtree) for subtree in tree["intersection"] ]
+                children = [CSGTree(subtree) for subtree in tree["intersection"]]
                 self.tree = PyMesh.CSGTree.create("igl")
                 self.tree.set_operand_1(children[0].tree)
                 self.tree.set_operand_2(children[1].tree)
@@ -107,23 +108,23 @@ class CSGTree:
             else:
                 raise RuntimeError("No operand provided for intersection operation")
         elif "difference" in tree:
-            children = [ CSGTree(subtree) for subtree in tree["difference"] ]
-            assert(len(children) == 2)
+            children = [CSGTree(subtree) for subtree in tree["difference"]]
+            assert len(children) == 2
             self.tree = PyMesh.CSGTree.create("igl")
             self.tree.set_operand_1(children[0].tree)
             self.tree.set_operand_2(children[1].tree)
             self.tree.compute_difference()
         elif "symmetric_difference" in tree:
-            children = [ CSGTree(subtree) for subtree in
-                    tree["symmetric_difference"] ]
-            assert(len(children) == 2)
+            children = [CSGTree(subtree) for subtree in tree["symmetric_difference"]]
+            assert len(children) == 2
             self.tree = PyMesh.CSGTree.create("igl")
             self.tree.set_operand_1(children[0].tree)
             self.tree.set_operand_2(children[1].tree)
             self.tree.compute_symmetric_difference()
         else:
             raise NotImplementedError(
-                    "Unsupported boolean operation or incorrect csg tree")
+                "Unsupported boolean operation or incorrect csg tree"
+            )
 
     @property
     def vertices(self):
@@ -143,4 +144,3 @@ class CSGTree:
         mesh.add_attribute("source")
         mesh.set_attribute("source", sources)
         return mesh
-

@@ -3,6 +3,7 @@ from numpy.linalg import norm
 
 import PyMeshUtils
 
+
 class Boundary(object):
     def __init__(self, mesh):
         self.__mesh = mesh
@@ -13,16 +14,17 @@ class Boundary(object):
 
     def __init_surface_boundaries(self):
         self.__add_attribute("vertex_normal")
-        surface_boundary  = \
-                PyMeshUtils.Boundary.extract_surface_boundary(self.__mesh.raw_mesh)
+        surface_boundary = PyMeshUtils.Boundary.extract_surface_boundary(
+            self.__mesh.raw_mesh
+        )
         boundaries = surface_boundary.get_boundaries()
-        assert(boundaries.shape[1] == 2)
+        assert boundaries.shape[1] == 2
 
         self.boundary_nodes = surface_boundary.get_boundary_nodes().ravel()
         self.boundaries = boundaries
 
-        v1 = self.__mesh.vertices_ref[boundaries[:,0]]
-        v2 = self.__mesh.vertices_ref[boundaries[:,1]]
+        v1 = self.__mesh.vertices_ref[boundaries[:, 0]]
+        v2 = self.__mesh.vertices_ref[boundaries[:, 1]]
         self.__boundary_areas = norm(v1 - v2, axis=1)
         self.__boundary_node_areas = np.zeros(self.__mesh.num_vertices)
         for i, bd in enumerate(boundaries):
@@ -30,10 +32,11 @@ class Boundary(object):
         self.__boundary_node_areas /= 2.0
         self.__boundary_centers = (v1 + v2) / 2.0
         self.__boundary_normals = np.zeros_like(v1)
-        self.__boundary_normals[:,0] = v1[:,1] - v2[:,1]
-        self.__boundary_normals[:,1] = v2[:,0] - v1[:,0]
+        self.__boundary_normals[:, 0] = v1[:, 1] - v2[:, 1]
+        self.__boundary_normals[:, 1] = v2[:, 0] - v1[:, 0]
         self.__boundary_normals = np.divide(
-                self.__boundary_normals, self.__boundary_areas[:,np.newaxis])
+            self.__boundary_normals, self.__boundary_areas[:, np.newaxis]
+        )
 
     def __init_volume_boundaries(self):
         self.__add_attribute("face_area")
@@ -79,6 +82,4 @@ class Boundary(object):
 
     @property
     def boundary_node_normals(self):
-        return self.__mesh.get_attribute("vertex_normal")\
-                .reshape((-1, self.__mesh.dim))
-
+        return self.__mesh.get_attribute("vertex_normal").reshape((-1, self.__mesh.dim))

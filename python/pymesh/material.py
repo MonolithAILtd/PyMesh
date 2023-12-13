@@ -2,10 +2,11 @@ import PyMesh
 
 import numpy as np
 
+
 class Material:
     @classmethod
     def create_isotropic(cls, dim, density, young, poisson):
-        """ Create an isotropic material.
+        """Create an isotropic material.
 
         Args:
             dim: Dimension of the ambient space (must be 2 or 3).
@@ -14,12 +15,11 @@ class Material:
             poisson: Poisson's ratio
                      (must be in (-1, 0.5) in 3D and (-1, 1) in 2D).
         """
-        return Material(PyMesh.Material.create_isotropic(
-            dim, density, young, poisson))
+        return Material(PyMesh.Material.create_isotropic(dim, density, young, poisson))
 
     @classmethod
     def create_orthotropic(cls, density, young, poisson, shear):
-        """ Create an orthotropic material.
+        """Create an orthotropic material.
 
         Args:
             desnity: Material density.
@@ -29,15 +29,19 @@ class Material:
                                                 poisson_xy, poisson_yx]
             shear: Array of Shear modulus, [shear_yz, shear_zx, shear_xy]
         """
-        return Material(PyMesh.Material.create_orthotropic(
-            density, young, poisson, shear))
+        return Material(
+            PyMesh.Material.create_orthotropic(density, young, poisson, shear)
+        )
 
     @classmethod
-    def create_element_wise_isotropic(cls, density, mesh,
-            young_attribute_name, poisson_attribute_name):
-        return Material(PyMesh.Material.create_element_wise_isotropic(
-            density, mesh.raw_mesh,
-            young_attribute_name, poisson_attribute_name))
+    def create_element_wise_isotropic(
+        cls, density, mesh, young_attribute_name, poisson_attribute_name
+    ):
+        return Material(
+            PyMesh.Material.create_element_wise_isotropic(
+                density, mesh.raw_mesh, young_attribute_name, poisson_attribute_name
+            )
+        )
 
     def __init__(self, raw_material=None):
         self.raw_material = raw_material
@@ -48,15 +52,16 @@ class Material:
         return self.raw_material.strain_to_stress(strain, coord)
 
     def get_material_tensor(self, coord):
-        """ Return 4th order material tensor of size d x d x d x d evaluated at
+        """Return 4th order material tensor of size d x d x d x d evaluated at
         coord.
         """
         tensor = np.empty([self.dim, self.dim, self.dim, self.dim])
         indices = np.arange(self.dim)
-        I,J,K,L = np.meshgrid(indices, indices, indices, indices)
-        for i,j,k,l in zip(I.ravel(), J.ravel(), K.ravel(), L.ravel()):
-            tensor[i,j,k,l] = self.raw_material.get_material_tensor(
-                    int(i),int(j),int(k),int(l),coord)
+        I, J, K, L = np.meshgrid(indices, indices, indices, indices)
+        for i, j, k, l in zip(I.ravel(), J.ravel(), K.ravel(), L.ravel()):
+            tensor[i, j, k, l] = self.raw_material.get_material_tensor(
+                int(i), int(j), int(k), int(l), coord
+            )
         return tensor
 
     def get_density(self, coord):
@@ -67,13 +72,12 @@ class Material:
 
     @property
     def density(self):
-        """ Density at the origin.
-        """
+        """Density at the origin."""
         return self.raw_material.get_density()
 
     @property
     def material_tensor(self):
-        """ Return 4th order material tensor of size d x d x d x d evaluated at
+        """Return 4th order material tensor of size d x d x d x d evaluated at
         the origin.
         """
         coord = np.zeros(self.dim)
@@ -81,6 +85,5 @@ class Material:
 
     @property
     def dim(self):
-        """ Dimension of the ambient space.
-        """
+        """Dimension of the ambient space."""
         return self.raw_material.get_dim()

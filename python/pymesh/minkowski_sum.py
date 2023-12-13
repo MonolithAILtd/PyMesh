@@ -3,8 +3,9 @@ import numpy as np
 from .meshio import form_mesh
 from .meshutils import remove_isolated_vertices
 
+
 def minkowski_sum(mesh, path):
-    """ Perform Minkowski sum of a mesh with a poly-line.
+    """Perform Minkowski sum of a mesh with a poly-line.
 
     Args:
         mesh (:class:`Mesh`): Input mesh.

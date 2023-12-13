@@ -1,8 +1,9 @@
 import PyMesh
 from .meshio import form_mesh
 
+
 def cut_to_disk(mesh):
-    """ Cut a mesh open into disk topology.  (Note the cut may not be optimal.)
+    """Cut a mesh open into disk topology.  (Note the cut may not be optimal.)
     This method assumes the input mesh is edge-manifold.
 
     Args:

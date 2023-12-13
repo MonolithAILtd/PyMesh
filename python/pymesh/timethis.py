@@ -2,8 +2,9 @@
 from time import time
 import functools
 
+
 class timethis(object):
-    """ This class should be used as decorator for timing methods.
+    """This class should be used as decorator for timing methods.
     Example:
         @timethis
         def foo(x, y):
@@ -13,6 +14,7 @@ class timethis(object):
         def bar(self, a, b, c):
             ...
     """
+
     def __init__(self, f):
         self.f = f
 
@@ -41,7 +43,7 @@ class timethis(object):
             raise RuntimeError("No tik before tok for '{}'".format(f_name))
 
         duration = finish - start
-        self.hist[f_name]  = self.hist.get(f_name, 0) + duration
+        self.hist[f_name] = self.hist.get(f_name, 0) + duration
         self.count[f_name] = self.count.get(f_name, 0) + 1
         return duration
 
@@ -52,17 +54,15 @@ class timethis(object):
 
     @classmethod
     def summarize(cls):
-        if len(cls.__hist) == 0: return
-        separator = "-"*67
+        if len(cls.__hist) == 0:
+            return
+        separator = "-" * 67
         format_string = "| {0:40.39} | {1:12.7} | {2:5} |"
         print(separator)
         print(format_string.format("Label", "Time", "Count"))
         print(separator)
         for f_name in cls.__hist.keys():
-            print(format_string.format(
-                f_name,
-                cls.__hist[f_name],
-                cls.__count[f_name]))
+            print(format_string.format(f_name, cls.__hist[f_name], cls.__count[f_name]))
         print(separator)
 
         if len(cls.__tiks) > 0:
@@ -86,19 +86,23 @@ class timethis(object):
     __hist = {}
     __count = {}
 
+
 class timethis_print(timethis):
     def tok(self):
         duration = super(self.__class__, self).tok()
         print("Time of {:<10}: {:6.3}".format(self.f.__name__, duration))
 
+
 @timethis
 def test(x):
     print("x = {}".format(x))
 
+
 class A(object):
     @timethis
     def test2(self, x):
-        return x+1
+        return x + 1
+
 
 if __name__ == "__main__":
     a = A()
@@ -106,4 +110,3 @@ if __name__ == "__main__":
         test(i)
         print(a.test2(i))
     timethis.summarize()
-

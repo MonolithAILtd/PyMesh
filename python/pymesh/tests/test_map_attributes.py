@@ -3,33 +3,34 @@ from pymesh.TestCase import TestCase
 import numpy as np
 import numpy.linalg
 
+
 class MapAttributesTest(TestCase):
     def test_map_vertex_attributes_sphere(self):
-        """ Map vertex attribute between two spheres.
-        """
+        """Map vertex attribute between two spheres."""
         mesh1 = pymesh.generate_icosphere(2.0, [0.0, 0.0, 0.0], 2)
         mesh2 = pymesh.generate_icosphere(2.0, [0.0, 0.0, 0.0], 3)
 
         mesh1.add_attribute("x")
-        mesh1.set_attribute("x", mesh1.vertices[:,0])
+        mesh1.set_attribute("x", mesh1.vertices[:, 0])
         pymesh.map_vertex_attribute(mesh1, mesh2, "x")
 
         self.assertTrue(mesh2.has_attribute("x"))
 
         x = mesh2.get_vertex_attribute("x").ravel()
-        ground_truth = mesh2.vertices[:,0]
-        residual = numpy.linalg.norm(ground_truth-x)**2 / mesh2.num_vertices
+        ground_truth = mesh2.vertices[:, 0]
+        residual = numpy.linalg.norm(ground_truth - x) ** 2 / mesh2.num_vertices
         self.assertLess(residual, 1e-2)
 
     def test_map_vertex_attributes_sphere_box(self):
-        """ Map vertex attribute from sphere to box.
-        """
+        """Map vertex attribute from sphere to box."""
         mesh1 = pymesh.generate_icosphere(2.0, [0.0, 0.0, 0.0], 2)
-        mesh2 = pymesh.generate_box_mesh(np.ones(3)-2, np.ones(3), 10)
+        mesh2 = pymesh.generate_box_mesh(np.ones(3) - 2, np.ones(3), 10)
 
         Z = np.array([0, 0, 1])
-        theta = np.arctan2(np.dot(mesh1.vertices, Z),
-                numpy.linalg.norm(np.cross(mesh1.vertices, Z), axis=1))
+        theta = np.arctan2(
+            np.dot(mesh1.vertices, Z),
+            numpy.linalg.norm(np.cross(mesh1.vertices, Z), axis=1),
+        )
 
         mesh1.add_attribute("theta")
         mesh1.set_attribute("theta", theta)
@@ -37,11 +38,13 @@ class MapAttributesTest(TestCase):
 
         self.assertTrue(mesh2.has_attribute("theta"))
 
-        ground_truth = np.arctan2(np.dot(mesh2.vertices, Z),
-                numpy.linalg.norm(np.cross(mesh2.vertices, Z), axis=1))
+        ground_truth = np.arctan2(
+            np.dot(mesh2.vertices, Z),
+            numpy.linalg.norm(np.cross(mesh2.vertices, Z), axis=1),
+        )
         theta2 = mesh2.get_vertex_attribute("theta").ravel()
 
-        residual = numpy.linalg.norm(ground_truth-theta2)**2 / mesh2.num_vertices
+        residual = numpy.linalg.norm(ground_truth - theta2) ** 2 / mesh2.num_vertices
         self.assertLess(residual, 1e-2)
 
     def test_map_face_attribute_sphere(self):
@@ -79,4 +82,3 @@ class MapAttributesTest(TestCase):
         diff = value - mapped_value
         largest_error = np.amax(np.absolute(diff))
         self.assertLess(largest_error, 1e-12)
-

@@ -1,6 +1,7 @@
 import PyMesh
 from .Mesh import Mesh
 
+
 class VoxelGrid:
     def __init__(self, cell_size, dim=3):
         self.dim = dim
@@ -12,7 +13,7 @@ class VoxelGrid:
             raise NotImplementedError("Unsupported dim: {}".format(dim))
 
     def insert_mesh(self, mesh):
-        assert(self.dim == mesh.dim)
+        assert self.dim == mesh.dim
         self.raw_grid.insert_mesh(mesh.raw_mesh)
 
     def create_grid(self):

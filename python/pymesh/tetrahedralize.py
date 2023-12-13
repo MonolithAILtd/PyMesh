@@ -12,14 +12,17 @@ import tempfile
 import subprocess
 from time import time
 
-def tetrahedralize(mesh,
-        cell_size,
-        radius_edge_ratio=2.0,
-        facet_distance=-1.0,
-        feature_angle=120,
-        engine="auto",
-        with_timing=False):
-    """ Create a tetrahedral mesh from input triangle mesh.
+
+def tetrahedralize(
+    mesh,
+    cell_size,
+    radius_edge_ratio=2.0,
+    facet_distance=-1.0,
+    feature_angle=120,
+    engine="auto",
+    with_timing=False,
+):
+    """Create a tetrahedral mesh from input triangle mesh.
 
     Arguments:
         mesh (:class:`Mesh`): Input triangular mesh.
@@ -82,10 +85,10 @@ def tetrahedralize(mesh,
         raise NotImplementedError("Tetrahedralization only works with 3D mesh")
     if mesh.vertex_per_face != 3:
         raise NotImplementedError("Only triangle mesh is supported for now")
-    if engine == 'auto':
-        engine = 'tetgen'
+    if engine == "auto":
+        engine = "tetgen"
 
-    if engine == 'delpsc':
+    if engine == "delpsc":
         exec_name = "DelPSC"
         temp_dir = tempfile.gettempdir()
         md5 = hashlib.md5()
@@ -99,8 +102,7 @@ def tetrahedralize(mesh,
         # dimension of the bbox.
         reference_len = np.amin(bbox_diagonal)
         cmd += " -mtr {}".format(cell_size / reference_len)
-        cmd += " -max {}".format(cell_size /
-                (0.75 * math.sqrt(2) * reference_len))
+        cmd += " -max {}".format(cell_size / (0.75 * math.sqrt(2) * reference_len))
         if radius_edge_ratio > 0.0:
             cmd += " -ar {}".format(radius_edge_ratio)
         if feature_angle > 0.0:
@@ -117,7 +119,7 @@ def tetrahedralize(mesh,
 
         outfile_tet = os.path.join(temp_dir, "{}_vol.tets".format(name))
         outfile_off = os.path.join(temp_dir, "{}_vol.off".format(name))
-        assert(os.path.exists(outfile_tet))
+        assert os.path.exists(outfile_tet)
         os.rename(outfile_tet, outfile_off)
         # DelPSC save tet mesh using OFF format, so PyMesh would be able to
         # parse it (albeit as a quad mesh).
@@ -184,4 +186,3 @@ def tetrahedralize(mesh,
             return output_mesh, running_time
         else:
             return output_mesh
-

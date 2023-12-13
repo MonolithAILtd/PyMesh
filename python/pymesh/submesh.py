@@ -2,12 +2,14 @@ import numpy as np
 from .meshutils import remove_isolated_vertices_raw
 from .meshio import form_mesh
 
+
 def expand_by_one_ring(vertices, elements, selected_elements):
     num_vertices = vertices.shape[0]
     selected_vertices = np.zeros(num_vertices, dtype=bool)
     selected_vertices[elements[selected_elements].ravel()] = True
     selected_elements = np.any(selected_vertices[elements], axis=1)
     return selected_elements
+
 
 def extract_submesh_surface(mesh, face_indices, n_ring):
     vertices = mesh.vertices
@@ -17,8 +19,7 @@ def extract_submesh_surface(mesh, face_indices, n_ring):
     ring_index = np.zeros(mesh.num_faces, dtype=int)
     ring_index[selected_faces] += 1
     for i in range(n_ring):
-        selected_faces = expand_by_one_ring(
-                mesh.vertices, mesh.faces, selected_faces)
+        selected_faces = expand_by_one_ring(mesh.vertices, mesh.faces, selected_faces)
         ring_index[selected_faces] += 1
     selected_face_indices = np.arange(mesh.num_faces)[selected_faces]
     faces = mesh.faces[selected_faces]
@@ -47,6 +48,7 @@ def extract_submesh_surface(mesh, face_indices, n_ring):
 
     return out_mesh
 
+
 def extract_submesh_volume(mesh, tet_indices, n_ring):
     vertices = mesh.vertices
 
@@ -56,7 +58,8 @@ def extract_submesh_volume(mesh, tet_indices, n_ring):
     ring_index[selected_voxels] += 1
     for i in range(n_ring):
         selected_voxels = expand_by_one_ring(
-                mesh.vertices, mesh.voxels, selected_voxels)
+            mesh.vertices, mesh.voxels, selected_voxels
+        )
         ring_index[selected_voxels] += 1
     selected_voxel_indices = np.arange(mesh.num_voxels)[selected_voxels]
     voxels = mesh.voxels[selected_voxels]
@@ -85,8 +88,9 @@ def extract_submesh_volume(mesh, tet_indices, n_ring):
 
     return out_mesh
 
+
 def submesh(mesh, element_indices, num_rings):
-    """ Extract a subset of the mesh elements and forming a new mesh.
+    """Extract a subset of the mesh elements and forming a new mesh.
 
     Args:
         mesh (:class:`Mesh`): The input mesh.
@@ -109,4 +113,3 @@ def submesh(mesh, element_indices, num_rings):
         return extract_submesh_surface(mesh, element_indices, num_rings)
     else:
         return extract_submesh_volume(mesh, element_indices, num_rings)
-

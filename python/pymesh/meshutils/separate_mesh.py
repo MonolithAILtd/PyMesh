@@ -8,8 +8,9 @@ from PyMesh import MeshSeparator
 from ..meshio import form_mesh
 from .remove_isolated_vertices import remove_isolated_vertices_raw
 
+
 def separate_mesh(mesh, connectivity_type="auto"):
-    """ Split mesh into connected components.
+    """Split mesh into connected components.
 
     Args:
         mesh (:class:`Mesh`): Input mesh.
@@ -47,8 +48,9 @@ def separate_mesh(mesh, connectivity_type="auto"):
         separator = MeshSeparator(mesh.voxels)
         separator.set_connectivity_type(MeshSeparator.ConnectivityType.VOXEL)
     else:
-        raise RuntimeError("Unsupported connectivity type: {}".format(
-            connectivity_type))
+        raise RuntimeError(
+            "Unsupported connectivity type: {}".format(connectivity_type)
+        )
 
     num_comps = separator.separate()
 
@@ -56,8 +58,7 @@ def separate_mesh(mesh, connectivity_type="auto"):
     for i in range(num_comps):
         comp = separator.get_component(i)
         elem_sources = separator.get_sources(i).ravel()
-        vertices, comp, info = remove_isolated_vertices_raw(
-                mesh.vertices, comp)
+        vertices, comp, info = remove_isolated_vertices_raw(mesh.vertices, comp)
         if is_voxel_mesh:
             comp_mesh = form_mesh(vertices, np.zeros((0, 3)), comp)
         else:
@@ -85,13 +86,13 @@ def separate_mesh(mesh, connectivity_type="auto"):
                 comp_mesh.add_attribute(name)
                 comp_mesh.set_attribute(name, attr)
 
-
         comp_meshes.append(comp_mesh)
 
     return comp_meshes
 
+
 def separate_graph(edges):
-    """ Split graph into disconnected components.
+    """Split graph into disconnected components.
 
     Args:
         edges (:class:`numpy.ndarray`): edges of the graph.
@@ -108,4 +109,3 @@ def separate_graph(edges):
         src_idx = separator.get_sources(i).ravel()
         comp_indices[src_idx] = i
     return comp_indices
-

@@ -1,8 +1,9 @@
 import PyMesh
 from .meshio import form_mesh
 
+
 class tetgen(PyMesh.tetgen):
-    """ Wrapper around Si's `TetGen <http://wias-berlin.de/software/tetgen/>`_.
+    """Wrapper around Si's `TetGen <http://wias-berlin.de/software/tetgen/>`_.
 
     All attributes, except ``vertices``, ``faces``, ``voxels`` and ``mesh``,
     are either input geometry or configuration parameters.
@@ -85,6 +86,7 @@ class tetgen(PyMesh.tetgen):
         >>> mesh = tetgen.mesh # Extract output tetrahedral mesh.
 
     """
+
     @property
     def mesh(self):
         return form_mesh(self.vertices, self.faces, self.voxels)
@@ -93,8 +95,6 @@ class tetgen(PyMesh.tetgen):
         if not hasattr(self, key):
             # Need to disable pesky dynamic attributes so that we can catch typo
             # early on.
-            raise AttributeError(
-                    "Attribute '{}' does not exists!".format(key))
+            raise AttributeError("Attribute '{}' does not exists!".format(key))
         else:
             PyMesh.tetgen.__setattr__(self, key, value)
-

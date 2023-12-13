@@ -1,6 +1,7 @@
 import PyMesh
 import numpy as np
 
+
 class AABBTree:
     def __init__(self):
         self.__raw_tree = None
@@ -12,17 +13,20 @@ class AABBTree:
         self.__raw_tree = PyMesh.AABBTree(mesh.vertices, mesh.faces)
 
     def look_up(self, pts):
-        sq_dists, face_indices = \
-                self.__raw_tree.look_up(pts)
+        sq_dists, face_indices = self.__raw_tree.look_up(pts)
         return sq_dists.squeeze(), face_indices.squeeze()
 
     def look_up_with_closest_points(self, pts):
-        sq_dists, face_indices, closest_pts = \
-                self.__raw_tree.look_up_with_closest_points(pts)
+        (
+            sq_dists,
+            face_indices,
+            closest_pts,
+        ) = self.__raw_tree.look_up_with_closest_points(pts)
         return sq_dists.squeeze(), face_indices.squeeze(), closest_pts
 
     def do_intersect_segments(self, vertices, edges):
         return self.__raw_tree.do_intersect_segments(vertices, edges).squeeze()
+
 
 class AABBTree2:
     def __init__(self):
@@ -32,14 +36,17 @@ class AABBTree2:
         self.__raw_tree = PyMesh.AABBTree2(points, segments)
 
     def look_up(self, pts):
-        sq_dists, segment_indices = \
-                self.__raw_tree.look_up(pts)
+        sq_dists, segment_indices = self.__raw_tree.look_up(pts)
         return sq_dists.squeeze(), segment_indices.squeeze()
 
     def look_up_with_closest_points(self, pts):
-        sq_dists, segment_indices, closest_pts = \
-                self.__raw_tree.look_up_with_closest_points(pts)
+        (
+            sq_dists,
+            segment_indices,
+            closest_pts,
+        ) = self.__raw_tree.look_up_with_closest_points(pts)
         return sq_dists.squeeze(), segment_indices.squeeze(), closest_pts
+
 
 class BVH:
     available_engines = PyMesh.BVHEngine.available_engines
@@ -60,12 +67,17 @@ class BVH:
         return sq_dists.squeeze(), face_indices.squeeze(), closest_pts
 
     def lookup_signed(self, pts, fn, vn, en, emap):
-        signed_dists, face_indices, closest_pts, face_normals = self.__raw_bvh.lookup_signed(pts, fn, vn, en, emap)
+        (
+            signed_dists,
+            face_indices,
+            closest_pts,
+            face_normals,
+        ) = self.__raw_bvh.lookup_signed(pts, fn, vn, en, emap)
         return signed_dists, face_indices.squeeze(), closest_pts, face_normals.squeeze()
 
 
 def distance_to_mesh(mesh, pts, engine="auto", bvh=None):
-    """ Compute the distance from a set of points to a mesh.
+    """Compute the distance from a set of points to a mesh.
 
     Args:
         mesh (:class:`Mesh`): A input mesh.
@@ -91,8 +103,9 @@ def distance_to_mesh(mesh, pts, engine="auto", bvh=None):
     squared_distances, face_indices, closest_points = bvh.lookup(pts)
     return squared_distances, face_indices, closest_points
 
+
 def signed_distance_to_mesh(mesh, pts, engine="igl", bvh=None):
-    """ Compute the signed distance from a set of points to a mesh.
+    """Compute the signed distance from a set of points to a mesh.
 
     Args:
         mesh (:class:`Mesh`): A input mesh.
@@ -119,8 +132,10 @@ def signed_distance_to_mesh(mesh, pts, engine="igl", bvh=None):
 
     # get face normals
     try:
-        face_normals = np.reshape(mesh.get_attribute("face_normals"),
-                                  np.int32(mesh.get_attribute("face_normals_shape")))
+        face_normals = np.reshape(
+            mesh.get_attribute("face_normals"),
+            np.int32(mesh.get_attribute("face_normals_shape")),
+        )
     except RuntimeError:
         face_normals = PyMesh.face_normals(mesh.vertices, mesh.faces)
         mesh.add_attribute("face_normals")
@@ -130,8 +145,10 @@ def signed_distance_to_mesh(mesh, pts, engine="igl", bvh=None):
 
     # get vertex normals
     try:
-        vertex_normals = np.reshape(mesh.get_attribute("vertex_normals"),
-                                    np.int32(mesh.get_attribute("vertex_normals_shape")))
+        vertex_normals = np.reshape(
+            mesh.get_attribute("vertex_normals"),
+            np.int32(mesh.get_attribute("vertex_normals_shape")),
+        )
     except RuntimeError:
         vertex_normals = PyMesh.vertex_normals(mesh.vertices, mesh.faces, face_normals)
         mesh.add_attribute("vertex_normals")
@@ -141,12 +158,18 @@ def signed_distance_to_mesh(mesh, pts, engine="igl", bvh=None):
 
     # get edge normals
     try:
-        edge_normals = np.reshape(mesh.get_attribute("edge_normals"),
-                                  np.int32(mesh.get_attribute("edge_normals_shape")))
-        edge_map = np.reshape(np.int32(mesh.get_attribute("edge_map")),
-                              np.int32(mesh.get_attribute("edge_map_shape")))
+        edge_normals = np.reshape(
+            mesh.get_attribute("edge_normals"),
+            np.int32(mesh.get_attribute("edge_normals_shape")),
+        )
+        edge_map = np.reshape(
+            np.int32(mesh.get_attribute("edge_map")),
+            np.int32(mesh.get_attribute("edge_map_shape")),
+        )
     except RuntimeError:
-        edge_normals, _, edge_map = PyMesh.edge_normals(mesh.vertices, mesh.faces, face_normals)
+        edge_normals, _, edge_map = PyMesh.edge_normals(
+            mesh.vertices, mesh.faces, face_normals
+        )
         mesh.add_attribute("edge_normals")
         mesh.add_attribute("edge_map")
         mesh.add_attribute("edge_normals_shape")
@@ -156,11 +179,14 @@ def signed_distance_to_mesh(mesh, pts, engine="igl", bvh=None):
         mesh.set_attribute("edge_normals_shape", np.array(edge_normals.shape))
         mesh.set_attribute("edge_map_shape", np.array(edge_map.shape))
 
-    signed_distances, face_indices, closest_points, face_normals = bvh.lookup_signed(pts, face_normals, vertex_normals, edge_normals, edge_map)
+    signed_distances, face_indices, closest_points, face_normals = bvh.lookup_signed(
+        pts, face_normals, vertex_normals, edge_normals, edge_map
+    )
     return signed_distances, face_indices, closest_points, face_normals
 
+
 def do_intersect(mesh, nodes, elements):
-    """ Check if each element intersects the mesh.
+    """Check if each element intersects the mesh.
 
     Args:
         mesh (:class:`Mesh`): Input mesh.
@@ -173,14 +199,14 @@ def do_intersect(mesh, nodes, elements):
     tree = AABBTree()
     tree.load_mesh(mesh)
 
-    assert(elements.ndim == 2)
+    assert elements.ndim == 2
     elem_type = elements.shape[1]
-    if (elem_type == 2):
-        r =tree.do_intersect_segments(nodes, elements) != 0
+    if elem_type == 2:
+        r = tree.do_intersect_segments(nodes, elements) != 0
     else:
         raise NotImplementedError(
-                "AABB tree does not support element consisting of {} nodes"\
-                        .format(elem_type))
+            "AABB tree does not support element consisting of {} nodes".format(
+                elem_type
+            )
+        )
     return r
-
-

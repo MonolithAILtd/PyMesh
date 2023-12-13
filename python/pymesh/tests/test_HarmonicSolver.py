@@ -4,6 +4,7 @@ from pymesh.TestCase import TestCase
 import numpy as np
 import numpy.linalg
 
+
 class HarmonicSolverTest(TestCase):
     def test_linear_function(self):
         mesh = pymesh.generate_icosphere(1.0, np.zeros(3), 2)
@@ -56,11 +57,11 @@ class HarmonicSolverTest(TestCase):
 
         sol = solver.solution.ravel()
 
-        #mesh.add_attribute("target_solution")
-        #mesh.set_attribute("target_solution", target_solution)
-        #mesh.add_attribute("solution")
-        #mesh.set_attribute("solution", sol)
-        #pymesh.save_mesh("tmp.msh", mesh, *mesh.attribute_names)
+        # mesh.add_attribute("target_solution")
+        # mesh.set_attribute("target_solution", target_solution)
+        # mesh.add_attribute("solution")
+        # mesh.set_attribute("solution", sol)
+        # pymesh.save_mesh("tmp.msh", mesh, *mesh.attribute_names)
 
         self.assertEqual(mesh.num_vertices, len(sol))
         self.assert_array_almost_equal(target_solution, sol, 2)
@@ -68,12 +69,14 @@ class HarmonicSolverTest(TestCase):
 
     def test_2D(self):
         tri = pymesh.triangle()
-        tri.points = np.array([
-            [0.0, 0.0],
-            [1.0, 0.0],
-            [0.0, 1.0],
-            [1.0, 1.0],
-            ])
+        tri.points = np.array(
+            [
+                [0.0, 0.0],
+                [1.0, 0.0],
+                [0.0, 1.0],
+                [1.0, 1.0],
+            ]
+        )
         tri.keep_convex_hull = True
         tri.max_area = 0.0001
         tri.verbosity = 0
@@ -85,8 +88,9 @@ class HarmonicSolverTest(TestCase):
         solver = pymesh.HarmonicSolver.create(mesh)
         bd_indices = mesh.boundary_vertices.ravel()
         # f(x,y) = ln(x^2 + y^2) is known to be harmonic.
-        target_solution = np.log(np.square(numpy.linalg.norm(mesh.vertices +
-            1.0, axis=1)))
+        target_solution = np.log(
+            np.square(numpy.linalg.norm(mesh.vertices + 1.0, axis=1))
+        )
         bd_values = target_solution[bd_indices]
 
         solver.boundary_indices = bd_indices
@@ -97,11 +101,11 @@ class HarmonicSolverTest(TestCase):
 
         sol = solver.solution.ravel()
 
-        #mesh.add_attribute("target_solution")
-        #mesh.set_attribute("target_solution", target_solution)
-        #mesh.add_attribute("solution")
-        #mesh.set_attribute("solution", sol)
-        #pymesh.save_mesh("tmp.msh", mesh, *mesh.attribute_names)
+        # mesh.add_attribute("target_solution")
+        # mesh.set_attribute("target_solution", target_solution)
+        # mesh.add_attribute("solution")
+        # mesh.set_attribute("solution", sol)
+        # pymesh.save_mesh("tmp.msh", mesh, *mesh.attribute_names)
 
         self.assertEqual(mesh.num_vertices, len(sol))
         self.assert_array_almost_equal(target_solution, sol, 3)

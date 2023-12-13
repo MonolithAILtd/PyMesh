@@ -3,6 +3,7 @@ from pymesh.TestCase import TestCase
 
 import numpy as np
 
+
 class GenerateBoxMeshTest(TestCase):
     def assert_bbox_matches(self, mesh, bbox_min, bbox_max):
         bbox = mesh.bbox
@@ -12,8 +13,7 @@ class GenerateBoxMeshTest(TestCase):
     def test_3D(self):
         bbox_min = np.zeros(3)
         bbox_max = np.ones(3)
-        mesh = generate_box_mesh(
-                bbox_min, bbox_max)
+        mesh = generate_box_mesh(bbox_min, bbox_max)
 
         self.assertEqual(8, mesh.num_vertices)
         self.assertEqual(12, mesh.num_faces)
@@ -25,8 +25,7 @@ class GenerateBoxMeshTest(TestCase):
         bbox_min = np.zeros(2)
         bbox_max = np.ones(2) * 100.5
 
-        mesh = generate_box_mesh(
-                bbox_min, bbox_max)
+        mesh = generate_box_mesh(bbox_min, bbox_max)
 
         self.assertEqual(4, mesh.num_vertices)
         self.assertEqual(2, mesh.num_faces)
@@ -36,8 +35,7 @@ class GenerateBoxMeshTest(TestCase):
     def test_samples(self):
         bbox_min = np.zeros(3)
         bbox_max = np.ones(3)
-        mesh = generate_box_mesh(
-                bbox_min, bbox_max, num_samples=2)
+        mesh = generate_box_mesh(bbox_min, bbox_max, num_samples=2)
 
         self.assertEqual(27, mesh.num_vertices)
         self.assertEqual(48, mesh.num_faces)
@@ -53,8 +51,7 @@ class GenerateBoxMeshTest(TestCase):
     def test_symmetric_connectivity(self):
         bbox_min = np.zeros(3)
         bbox_max = np.ones(3)
-        mesh = generate_box_mesh(
-                bbox_min, bbox_max, keep_symmetry=True)
+        mesh = generate_box_mesh(bbox_min, bbox_max, keep_symmetry=True)
 
         self.assertEqual(15, mesh.num_vertices)
         self.assertEqual(24, mesh.num_faces)
@@ -65,8 +62,7 @@ class GenerateBoxMeshTest(TestCase):
     def test_subdiv(self):
         bbox_min = np.zeros(3)
         bbox_max = np.ones(3)
-        mesh = generate_box_mesh(
-                bbox_min, bbox_max, subdiv_order=1)
+        mesh = generate_box_mesh(bbox_min, bbox_max, subdiv_order=1)
 
         self.assertEqual(27, mesh.num_vertices)
         self.assertEqual(48, mesh.num_faces)
@@ -78,4 +74,3 @@ class GenerateBoxMeshTest(TestCase):
         self.assertEqual(0, np.amin(cell_index))
 
         self.assert_bbox_matches(mesh, bbox_min, bbox_max)
-

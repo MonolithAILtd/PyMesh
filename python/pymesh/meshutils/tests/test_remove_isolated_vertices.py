@@ -4,17 +4,18 @@ from pymesh.TestCase import TestCase
 import numpy as np
 import unittest
 
+
 class RemoveIsolatedVerticesTest(TestCase):
     def test_no_isolated_vertices(self):
-        vertices = np.array([
-            [ 0.0, 0.0, 0.0],
-            [ 1.0, 0.0, 0.0],
-            [ 0.0, 1.0, 0.0],
-            ])
+        vertices = np.array(
+            [
+                [0.0, 0.0, 0.0],
+                [1.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0],
+            ]
+        )
 
-        faces = np.array([
-            [0, 1, 2]
-            ])
+        faces = np.array([[0, 1, 2]])
 
         out_vertices, out_faces, info = remove_isolated_vertices_raw(vertices, faces)
 
@@ -24,17 +25,17 @@ class RemoveIsolatedVerticesTest(TestCase):
         self.assert_array_equal(np.arange(3), info["ori_vertex_index"])
 
     def test_multiple_isolated_vertices(self):
-        vertices = np.array([
-            [ 0.0, 0.0, 0.0],
-            [ 1.0, 0.0, 0.0],
-            [ 0.0, 1.0, 0.0],
-            [ 1.0, 1.0, 0.0],
-            [ 0.0, 0.0, 1.0],
-            ])
+        vertices = np.array(
+            [
+                [0.0, 0.0, 0.0],
+                [1.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0],
+                [1.0, 1.0, 0.0],
+                [0.0, 0.0, 1.0],
+            ]
+        )
 
-        faces = np.array([
-            [0, 1, 4]
-            ])
+        faces = np.array([[0, 1, 4]])
 
         out_vertices, out_faces, info = remove_isolated_vertices_raw(vertices, faces)
 

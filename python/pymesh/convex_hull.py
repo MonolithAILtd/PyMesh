@@ -4,6 +4,7 @@ import numpy as np
 from .meshio import form_mesh
 from .triangle import triangle
 
+
 def convex_hull(mesh, engine="auto", with_timing=False):
     """
     Compute the convex hull of an input mesh.

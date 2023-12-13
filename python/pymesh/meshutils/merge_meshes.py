@@ -2,8 +2,9 @@ from ..meshio import form_mesh
 import numpy as np
 import logging
 
+
 def merge_meshes(input_meshes):
-    """ Merge multiple meshes into a single mesh.
+    """Merge multiple meshes into a single mesh.
 
     Args:
         input_meshes (``list``): a list of input :class:`Mesh` objects.
@@ -29,7 +30,7 @@ def merge_meshes(input_meshes):
     face_sources = []
     voxel_sources = []
 
-    for i,mesh in enumerate(input_meshes):
+    for i, mesh in enumerate(input_meshes):
         vertices.append(mesh.vertices)
         vertex_sources.append(np.ones(mesh.num_vertices) * i)
         if mesh.num_faces > 0:
@@ -61,9 +62,10 @@ def merge_meshes(input_meshes):
         # Not all input meshes contains voxels.  So the merged mesh will not be
         # a valid volume representation.  It is probably base to drop all
         # voxels.
-        if (len(voxels) > 0):
-            logger.warning("Not all input meshes represent a volume, "
-                    "so dropping all voxels.")
+        if len(voxels) > 0:
+            logger.warning(
+                "Not all input meshes represent a volume, " "so dropping all voxels."
+            )
 
         voxels = np.zeros((0, 4), dtype=int)
         voxel_sources = np.array([])
@@ -72,12 +74,11 @@ def merge_meshes(input_meshes):
 
     output_mesh.add_attribute("vertex_sources")
     output_mesh.set_attribute("vertex_sources", vertex_sources)
-    if (len(face_sources) > 0):
+    if len(face_sources) > 0:
         output_mesh.add_attribute("face_sources")
         output_mesh.set_attribute("face_sources", face_sources)
-    if (len(voxel_sources) > 0):
+    if len(voxel_sources) > 0:
         output_mesh.add_attribute("voxel_sources")
         output_mesh.set_attribute("voxel_sources", voxel_sources)
 
     return output_mesh
-

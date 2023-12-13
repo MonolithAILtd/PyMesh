@@ -7,8 +7,9 @@ This module wraps the exact predicates Jonathan Richard Shewchuk.
 # The init function would be called when predicates module is imported.
 PyMesh.exactinit()
 
+
 def orient_2D(p1, p2, p3):
-    """ Determine the orientation 2D points p1, p2, p3
+    """Determine the orientation 2D points p1, p2, p3
 
     Args:
         p1,p2,p3: 2D points.
@@ -20,8 +21,9 @@ def orient_2D(p1, p2, p3):
     """
     return PyMesh.orient2d(p1, p2, p3)
 
+
 def orient_3D(p1, p2, p3, p4):
-    """ Determine the orientation 3D points p1, p2, p3, p4.
+    """Determine the orientation 3D points p1, p2, p3, p4.
 
     Args:
         p1,p2,p3,p4: 3D points.
@@ -33,8 +35,9 @@ def orient_3D(p1, p2, p3, p4):
     """
     return PyMesh.orient3d(p1, p2, p3, p4)
 
+
 def in_circle(p1, p2, p3, p4):
-    """ Determine if p4 is in the circle formed by p1, p2, p3.
+    """Determine if p4 is in the circle formed by p1, p2, p3.
 
     Args:
         p1,p2,p3,p4: 2D points.  ``orient_2D(p1, p2, p3)`` must be postive,
@@ -47,8 +50,9 @@ def in_circle(p1, p2, p3, p4):
     """
     return PyMesh.incircle(p1, p2, p3, p4)
 
+
 def in_sphere(p1, p2, p3, p4, p5):
-    """ Determine if p5 is in the sphere formed by p1, p2, p3, p4.
+    """Determine if p5 is in the sphere formed by p1, p2, p3, p4.
 
     Args:
         p1,p2,p3,p4,p5: 3D points.  ``orient_3D(p1, p2, p3, p4)`` must be

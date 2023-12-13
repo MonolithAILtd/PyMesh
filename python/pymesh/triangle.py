@@ -1,8 +1,9 @@
 import PyMesh
 from .meshio import form_mesh
 
+
 class triangle(PyMesh.triangle):
-    """ Wrapper around `Shewchuk's triangle
+    """Wrapper around `Shewchuk's triangle
     <https://www.cs.cmu.edu/~quake/triangle.html>`_.
 
     Attributes:
@@ -108,6 +109,7 @@ class triangle(PyMesh.triangle):
         Algorithmica 2(2):153-174, 1987.
 
     """
+
     @property
     def mesh(self):
         return form_mesh(self.vertices, self.faces)
@@ -128,10 +130,6 @@ class triangle(PyMesh.triangle):
         if not hasattr(self, key):
             # Need to disable pesky dynamic attributes so that we can catch typo
             # early on.
-            raise AttributeError(
-                    "Attribute '{}' does not exists!".format(key))
+            raise AttributeError("Attribute '{}' does not exists!".format(key))
         else:
             PyMesh.triangle.__setattr__(self, key, value)
-
-
-
