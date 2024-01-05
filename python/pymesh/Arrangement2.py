@@ -2,8 +2,9 @@ import PyMesh
 
 from .wires import WireNetwork
 
+
 class Arrangement2(PyMesh.Arrangement2):
-    """ 2D arrangement from CGAL.
+    """2D arrangement from CGAL.
 
     Attributes:
         points (:class:`numpy.ndarray`): P by 2 array of input 2D points.

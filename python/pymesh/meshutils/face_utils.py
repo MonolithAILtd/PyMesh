@@ -1,8 +1,9 @@
 import PyMesh
 import numpy as np
 
+
 def is_colinear(v0, v1, v2):
-    """ Return true if ``v0``, ``v1`` and ``v2`` are colinear.
+    """Return true if ``v0``, ``v1`` and ``v2`` are colinear.
     Colinear check is done using exact predicates.
 
     Args:
@@ -21,8 +22,9 @@ def is_colinear(v0, v1, v2):
     else:
         raise NotImplementedError("Supported dimention {}".format(dim))
 
+
 def get_degenerated_faces_raw(vertices, faces):
-    """ Return indices of degenerated faces.
+    """Return indices of degenerated faces.
     A face is degenerated if all its 3 corners are colinear.
 
     Args:
@@ -34,13 +36,14 @@ def get_degenerated_faces_raw(vertices, faces):
     """
     return np.array(PyMesh.get_degenerated_faces(vertices, faces))
 
+
 def get_degenerated_faces(mesh):
-    """ A thin wrapper for :py:func:`get_degenerated_faces_raw`.
-    """
+    """A thin wrapper for :py:func:`get_degenerated_faces_raw`."""
     return get_degenerated_faces_raw(mesh.vertices, mesh.faces)
 
+
 def get_triangle_orientations_raw(vertices, faces):
-    """ Compute orientation of each triangle.  A triangle is considered as
+    """Compute orientation of each triangle.  A triangle is considered as
     positively oriented iff its three corners are counterclockwise ordered.
 
     Args:
@@ -56,8 +59,7 @@ def get_triangle_orientations_raw(vertices, faces):
     """
     return PyMesh.get_triangle_orientations(vertices, faces)
 
-def get_triangle_orientations(mesh):
-    """ A thin wrapper of ``get_triangle_orientations_raw``.
-    """
-    return get_triangle_orientations_raw(mesh.vertices, mesh.faces)
 
+def get_triangle_orientations(mesh):
+    """A thin wrapper of ``get_triangle_orientations_raw``."""
+    return get_triangle_orientations_raw(mesh.vertices, mesh.faces)

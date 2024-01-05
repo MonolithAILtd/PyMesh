@@ -1,8 +1,9 @@
 from PyMesh import SparseSolver
 import PyMesh
 
+
 class SparseSolver(PyMesh.SparseSolver):
-    """ Linear solver for solving sparse linear systems.
+    """Linear solver for solving sparse linear systems.
 
     This class is a thin wrapper around `sparse solvers supported by Eigen
     <https://eigen.tuxfamily.org/dox/group__TopicSparseSystems.html>`_.
@@ -70,6 +71,7 @@ class SparseSolver(PyMesh.SparseSolver):
     .. _`SuiteSparse`: http://faculty.cse.tamu.edu/davis/suitesparse.html
     .. _`Intel MKL`: https://software.intel.com/en-us/mkl
     """
+
     @property
     def supported_solvers(self):
         return self.get_supported_solvers()

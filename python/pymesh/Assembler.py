@@ -3,8 +3,9 @@ import PyMesh
 import numpy as np
 from .material import Material
 
+
 class Assembler:
-    """ Finite element matrix assembler
+    """Finite element matrix assembler
 
     Example:
 
@@ -28,6 +29,7 @@ class Assembler:
         * ``gradient``
         * ``graph_laplacian``
     """
+
     def __init__(self, mesh, material=None):
         if material is None:
             # Using dummy material.
@@ -35,7 +37,8 @@ class Assembler:
         self.__mesh = mesh
         self.__material = material
         self.__raw_assembler = PyMesh.FEAssembler.create(
-                mesh.raw_mesh, material.raw_material)
+            mesh.raw_mesh, material.raw_material
+        )
 
     def assemble(self, matrix_name):
         return self.__raw_assembler.assemble(matrix_name)

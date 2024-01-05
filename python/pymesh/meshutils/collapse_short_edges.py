@@ -7,8 +7,9 @@ from ..meshio import form_mesh
 
 from PyMesh import ShortEdgeRemoval, IsolatedVertexRemoval, FinFaceRemoval
 
+
 class _EdgeCollapser(object):
-    """ Wrapper class for C++ ShortEdgeRemoval class.
+    """Wrapper class for C++ ShortEdgeRemoval class.
 
     Attributes:
         input_mesh: The input mesh.
@@ -24,6 +25,7 @@ class _EdgeCollapser(object):
             print(collapser.vertices)
             print(collapser.faces)
     """
+
     @classmethod
     def create(cls, mesh):
         return _EdgeCollapser(mesh)
@@ -36,16 +38,16 @@ class _EdgeCollapser(object):
     def __init__(self, mesh):
         self.input_mesh = mesh
         if self.input_mesh.vertex_per_face != 3:
-            raise RuntimeError("Only triangle mesh is supported!  "
-                    "Input has {} vertices per face".format(
-                        self.input_mesh.vertex_per_face))
+            raise RuntimeError(
+                "Only triangle mesh is supported!  "
+                "Input has {} vertices per face".format(self.input_mesh.vertex_per_face)
+            )
         self.logger = logging.getLogger(__name__)
         self.importance = None
 
     @timethis
     def keep_features(self):
-        """ Preserve sharp edges and boundaries.
-        """
+        """Preserve sharp edges and boundaries."""
         if not self.input_mesh.has_attribute("vertex_dihedral_angle"):
             self.input_mesh.add_attribute("vertex_dihedral_angle")
         dihedral_angle = self.input_mesh.get_attribute("vertex_dihedral_angle")
@@ -57,13 +59,13 @@ class _EdgeCollapser(object):
 
     @timethis
     def collapse(self, abs_threshold, rel_threshold):
-        """ Note this method remove all edges with length less than threshold.
+        """Note this method remove all edges with length less than threshold.
         This could result in a non-manifold mesh.
         """
         min_edge_length = abs_threshold
         if rel_threshold is not None:
             ave_edge_len = self.__get_ave_edge_length()
-            min_edge_length = rel_threshold  * ave_edge_len
+            min_edge_length = rel_threshold * ave_edge_len
         self.logger.info("Minimum edge threshold: {:.3}".format(min_edge_length))
 
         num_collapsed = self.__collapse_C(min_edge_length)
@@ -82,8 +84,7 @@ class _EdgeCollapser(object):
 
     @timethis
     def __collapse_C(self, min_edge_length):
-        collapser = ShortEdgeRemoval(
-                self.input_mesh.vertices, self.input_mesh.faces)
+        collapser = ShortEdgeRemoval(self.input_mesh.vertices, self.input_mesh.faces)
         if self.importance is not None:
             if len(self.importance) != self.input_mesh.num_vertices:
                 raise RuntimeError("Invalid importance size!")
@@ -108,9 +109,11 @@ class _EdgeCollapser(object):
         self.vertices = remover.get_vertices()
         self.faces = remover.get_faces()
 
-def collapse_short_edges_raw(vertices, faces, abs_threshold=0.0,
-        rel_threshold=None, preserve_feature=False):
-    """ Convenient function for collapsing short edges.
+
+def collapse_short_edges_raw(
+    vertices, faces, abs_threshold=0.0, rel_threshold=None, preserve_feature=False
+):
+    """Convenient function for collapsing short edges.
 
     Args:
         vertices (``numpy.ndarray``): Vertex array. One vertex per row.
@@ -143,14 +146,16 @@ def collapse_short_edges_raw(vertices, faces, abs_threshold=0.0,
         collapser.keep_features()
     num_collapsed = collapser.collapse(abs_threshold, rel_threshold)
     info = {
-            "num_edge_collapsed": num_collapsed,
-            "source_face_index": collapser.face_index_map
-            }
+        "num_edge_collapsed": num_collapsed,
+        "source_face_index": collapser.face_index_map,
+    }
     return collapser.vertices, collapser.faces, info
 
-def collapse_short_edges(mesh,
-        abs_threshold=0.0, rel_threshold=None, preserve_feature=False):
-    """ Wrapper function of :func:`collapse_short_edges_raw`.
+
+def collapse_short_edges(
+    mesh, abs_threshold=0.0, rel_threshold=None, preserve_feature=False
+):
+    """Wrapper function of :func:`collapse_short_edges_raw`.
 
     Args:
         mesh (:class:`Mesh`): Input mesh.
@@ -177,11 +182,11 @@ def collapse_short_edges(mesh,
 
             * ``num_edge_collapsed``: Number of edge collapsed.
     """
-    vertices, faces, info = collapse_short_edges_raw(mesh.vertices, mesh.faces,
-            abs_threshold, rel_threshold, preserve_feature)
+    vertices, faces, info = collapse_short_edges_raw(
+        mesh.vertices, mesh.faces, abs_threshold, rel_threshold, preserve_feature
+    )
     result = form_mesh(vertices, faces)
     result.add_attribute("face_sources")
     result.set_attribute("face_sources", info["source_face_index"])
     del info["source_face_index"]
     return result, info
-

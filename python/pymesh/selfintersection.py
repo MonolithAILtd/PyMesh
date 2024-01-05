@@ -2,8 +2,9 @@ import numpy as np
 import PyMesh
 from .meshio import form_mesh
 
+
 def resolve_self_intersection(mesh, engine="auto"):
-    """ Resolve all self-intersections.
+    """Resolve all self-intersections.
 
     Args:
         mesh (:py:class:`Mesh`): The input mesh.  Only triangular mesh is
@@ -29,14 +30,15 @@ def resolve_self_intersection(mesh, engine="auto"):
     vertices = mesh.vertices
     faces = mesh.faces
     if mesh.dim == 2:
-        vertices = np.hstack((vertices,
-            np.zeros((mesh.num_vertices, 1), dtype=float)))
+        vertices = np.hstack((vertices, np.zeros((mesh.num_vertices, 1), dtype=float)))
     elif mesh.dim != 3:
         raise NotImplementedError(
-                "Resolving self-intersection only support 2D and 3D meshes")
+            "Resolving self-intersection only support 2D and 3D meshes"
+        )
     if mesh.vertex_per_face != 3:
         raise NotImplementedError(
-                "Resolving self-intersection only support triangle meshes")
+            "Resolving self-intersection only support triangle meshes"
+        )
 
     resolver = PyMesh.SelfIntersectionResolver.create(engine)
     resolver.set_mesh(vertices, faces)
@@ -46,7 +48,7 @@ def resolve_self_intersection(mesh, engine="auto"):
     faces = resolver.get_faces()
 
     if mesh.dim == 2:
-        vertices = vertices[:,[0,1]]
+        vertices = vertices[:, [0, 1]]
 
     output_mesh = form_mesh(vertices, faces)
     face_sources = resolver.get_face_sources()
@@ -55,8 +57,9 @@ def resolve_self_intersection(mesh, engine="auto"):
 
     return output_mesh
 
+
 def detect_self_intersection(mesh):
-    """ Detect all self-intersections.
+    """Detect all self-intersections.
 
     Args:
         mesh (:class:`Mesh`): The input mesh.

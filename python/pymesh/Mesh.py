@@ -4,8 +4,9 @@ import numpy as np
 
 import PyMesh
 
+
 class Mesh(object):
-    """ A generic representation of a surface or volume mesh.
+    """A generic representation of a surface or volume mesh.
 
     Attributes:
 
@@ -54,70 +55,67 @@ class Mesh(object):
     """
 
     def __init__(self, raw_mesh):
-        """ Private constructor
+        """Private constructor
 
         Please see :py:mod:`meshio` for methods of loading and saving mesh.
         """
         self.__mesh = raw_mesh
 
     def add_attribute(self, name):
-        """ Add an attribute to mesh.
-        """
+        """Add an attribute to mesh."""
         self.__mesh.add_attribute(name)
 
     def has_attribute(self, name):
-        """ Check if an attribute exists.
-        """
+        """Check if an attribute exists."""
         return self.__mesh.has_attribute(name)
 
     def get_attribute(self, name):
-        """ Return attribute values in a flattened array.
-        """
+        """Return attribute values in a flattened array."""
         return self.__mesh.get_attribute(name).ravel()
 
     def get_vertex_attribute(self, name):
-        """ Same as :py:meth:`.get_attribute` but reshaped to have
+        """Same as :py:meth:`.get_attribute` but reshaped to have
         :py:attr:`num_vertices` rows.
         """
         if self.num_vertices == 0:
             return self.__mesh.get_attribute(name)
         else:
             return self.__mesh.get_attribute(name).reshape(
-                    (self.num_vertices, -1), order="C")
+                (self.num_vertices, -1), order="C"
+            )
 
     def get_face_attribute(self, name):
-        """ Same as :py:meth:`.get_attribute` but reshaped to have
+        """Same as :py:meth:`.get_attribute` but reshaped to have
         :py:attr:`num_faces` rows.
         """
         if self.num_faces == 0:
             return self.__mesh.get_attribute(name)
         else:
             return self.__mesh.get_attribute(name).reshape(
-                    (self.num_faces, -1), order="C")
+                (self.num_faces, -1), order="C"
+            )
 
     def get_voxel_attribute(self, name):
-        """ Same as :py:meth:`.get_attribute` but reshaped to have
+        """Same as :py:meth:`.get_attribute` but reshaped to have
         :py:attr:`num_voxels` rows.
         """
         if self.num_voxels == 0:
             return self.__mesh.get_attribute(name)
         else:
             return self.__mesh.get_attribute(name).reshape(
-                    (self.num_voxels, -1), order="C")
+                (self.num_voxels, -1), order="C"
+            )
 
     def set_attribute(self, name, val):
-        """ Set attribute to the given value.
-        """
+        """Set attribute to the given value."""
         self.__mesh.set_attribute(name, val.ravel(order="C"))
 
     def remove_attribute(self, name):
-        """ Remove attribute from mesh.
-        """
+        """Remove attribute from mesh."""
         self.__mesh.remove_attribute(name)
 
     def get_attribute_names(self):
-        """ Get names of all attributes associated with this mesh.
-        """
+        """Get names of all attributes associated with this mesh."""
         return self.__mesh.get_attribute_names()
 
     def enable_connectivity(self):
@@ -145,12 +143,11 @@ class Mesh(object):
         return self.__mesh.get_voxel_adjacent_voxels(Vi).ravel()
 
     def is_manifold(self):
-        """ Return true iff this mesh is both vertex-manifold and edge-manifold.
-        """
+        """Return true iff this mesh is both vertex-manifold and edge-manifold."""
         return self.is_vertex_manifold() and self.is_edge_manifold()
 
     def is_vertex_manifold(self):
-        """ Return true iff this mesh is vertex-manifold.
+        """Return true iff this mesh is vertex-manifold.
 
         A mesh is vertex-manifold if the 1-ring neighborhood of each vertex is
         a topological disk.
@@ -158,7 +155,7 @@ class Mesh(object):
         return self._extra_info.is_vertex_manifold()
 
     def is_edge_manifold(self):
-        """ Return true iff this mesh is edge-manifold.
+        """Return true iff this mesh is edge-manifold.
 
         A mesh is edge-manifold if there are exactly 2 incident faces for all
         non-border edges.  Border edges, by definition, only have 1 incident
@@ -167,7 +164,7 @@ class Mesh(object):
         return self._extra_info.is_edge_manifold()
 
     def is_closed(self):
-        """ Return true iff this mesh is closed.
+        """Return true iff this mesh is closed.
 
         A closed mesh constains no border.  I.e. all edges have at least 2
         incident faces.
@@ -175,7 +172,7 @@ class Mesh(object):
         return self._extra_info.is_closed()
 
     def is_oriented(self):
-        """ Return true iff the mesh is consistently oriented.
+        """Return true iff the mesh is consistently oriented.
 
         That is all non-bonary edges must represent locally 2-manifold or
         intersection of 2-manifold surfaces.
@@ -184,13 +181,11 @@ class Mesh(object):
 
     @property
     def vertices(self):
-        return self.__mesh.get_vertices().reshape(
-                (-1,self.dim), order="C")
+        return self.__mesh.get_vertices().reshape((-1, self.dim), order="C")
 
     @property
     def faces(self):
-        return self.__mesh.get_faces().reshape(
-                (-1, self.vertex_per_face), order="C")
+        return self.__mesh.get_faces().reshape((-1, self.vertex_per_face), order="C")
 
     @property
     def voxels(self):
@@ -198,7 +193,8 @@ class Mesh(object):
             return self.__mesh.get_voxels()
         else:
             return self.__mesh.get_voxels().reshape(
-                    (-1, self.vertex_per_voxel), order="C")
+                (-1, self.vertex_per_voxel), order="C"
+            )
 
     @property
     def num_vertices(self):
@@ -228,7 +224,7 @@ class Mesh(object):
     def bbox(self):
         if self.num_vertices == 0:
             raise RuntimeError("Cannot compute bbox with 0 vertices!")
-        vts = self.vertices.reshape((-1,self.dim), order='C')
+        vts = self.vertices.reshape((-1, self.dim), order="C")
         bmin = np.amin(vts, axis=0)
         bmax = np.amax(vts, axis=0)
         return bmin, bmax
@@ -283,7 +279,8 @@ class Mesh(object):
             return self.__extra_info
         except AttributeError:
             self.__extra_info = PyMesh.MeshChecker(
-                    self.vertices, self.faces, self.voxels)
+                self.vertices, self.faces, self.voxels
+            )
             return self.__extra_info
 
     @property

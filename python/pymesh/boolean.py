@@ -5,6 +5,7 @@ from .meshio import form_mesh
 
 from . import boolean_unsupported
 
+
 def _auto_select_engine(dim):
     if dim == 2:
         engine = "clipper"
@@ -14,9 +15,11 @@ def _auto_select_engine(dim):
         raise NotImplementedError("Dimension {} is not supported".format(dim))
     return engine
 
-def boolean(mesh_1, mesh_2, operation, engine="auto", with_timing=False,
-        exact_mesh_file=None):
-    """ Perform boolean operations on input meshes.
+
+def boolean(
+    mesh_1, mesh_2, operation, engine="auto", with_timing=False, exact_mesh_file=None
+):
+    """Perform boolean operations on input meshes.
 
     Args:
         mesh_1 (:class:`Mesh`): The first input mesh, :math:`M_1`.
@@ -59,16 +62,15 @@ def boolean(mesh_1, mesh_2, operation, engine="auto", with_timing=False,
         * "source_face": An array of indices, one per output face, into the
           concatenated faces of the input meshes.
     """
-    assert(mesh_1.dim == mesh_2.dim)
-    assert(mesh_1.vertex_per_face == 3)
-    assert(mesh_2.vertex_per_face == 3)
+    assert mesh_1.dim == mesh_2.dim
+    assert mesh_1.vertex_per_face == 3
+    assert mesh_2.vertex_per_face == 3
     dim = mesh_1.dim
 
     if engine == "auto":
         engine = _auto_select_engine(dim)
     elif engine == "quick_csg":
-        return boolean_unsupported.quick_csg(mesh_1, mesh_2, operation,
-                with_timing)
+        return boolean_unsupported.quick_csg(mesh_1, mesh_2, operation, with_timing)
 
     engine = PyMesh.BooleanEngine.create(engine)
     engine.set_mesh_1(mesh_1.vertices, mesh_1.faces)
@@ -77,17 +79,16 @@ def boolean(mesh_1, mesh_2, operation, engine="auto", with_timing=False,
     if with_timing:
         start_time = time()
 
-    if (operation == "intersection"):
+    if operation == "intersection":
         engine.compute_intersection()
-    elif (operation == "union"):
+    elif operation == "union":
         engine.compute_union()
-    elif (operation == "difference"):
+    elif operation == "difference":
         engine.compute_difference()
-    elif (operation == "symmetric_difference"):
+    elif operation == "symmetric_difference":
         engine.compute_symmetric_difference()
     else:
-        raise NotImplementedError(
-                "Unsupported operations: {}".format(operation))
+        raise NotImplementedError("Unsupported operations: {}".format(operation))
 
     if with_timing:
         finish_time = time()
@@ -109,4 +110,3 @@ def boolean(mesh_1, mesh_2, operation, engine="auto", with_timing=False,
         return output_mesh, running_time
     else:
         return output_mesh
-

@@ -1,6 +1,7 @@
 import numpy as np
 from ..meshio import form_mesh
 
+
 def mesh_to_graph(mesh):
     """
     Convert a mesh into a graph :math:`(V, E)`, where :math:`V` represents the
@@ -28,6 +29,7 @@ def mesh_to_graph(mesh):
             if vj > vi:
                 edges.append((vi, vj))
     return vertices, np.array(edges, dtype=int)
+
 
 def mesh_to_dual_graph(mesh):
     """

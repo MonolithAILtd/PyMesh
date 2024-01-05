@@ -1,7 +1,8 @@
 import PyMesh
 
+
 def straight_skeleton(vertices, edges):
-    """ Compute 2D straight skeleton.
+    """Compute 2D straight skeleton.
 
     Args:
         vertices (``numpy.ndarray``): Vertices of the input boundary.

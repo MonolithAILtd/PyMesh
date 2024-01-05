@@ -2,8 +2,9 @@ import numpy as np
 from PyMesh import FinFaceRemoval
 from ..meshio import form_mesh
 
+
 def remove_duplicated_faces_raw(vertices, faces, fins_only=False):
-    """ Remove duplicated faces.
+    """Remove duplicated faces.
 
     Duplicated faces are defined as faces consist of the same set of vertices.
     Depending on the face orientation.  A special case of duplicated faces is
@@ -43,15 +44,17 @@ def remove_duplicated_faces_raw(vertices, faces, fins_only=False):
 
     """
     remover = FinFaceRemoval(vertices, faces)
-    if fins_only: remover.set_fins_only()
+    if fins_only:
+        remover.set_fins_only()
     remover.run()
     info = {
-            "ori_face_index": remover.get_face_indices().ravel(),
-            }
+        "ori_face_index": remover.get_face_indices().ravel(),
+    }
     return remover.get_vertices(), remover.get_faces(), info
 
+
 def remove_duplicated_faces(mesh, fins_only=False):
-    """ Wrapper function of :func:`remove_duplicated_faces_raw`.
+    """Wrapper function of :func:`remove_duplicated_faces_raw`.
 
     Args:
         mesh (:class:`Mesh`): Input mesh.
@@ -71,5 +74,6 @@ def remove_duplicated_faces(mesh, fins_only=False):
 
     """
     vertices, faces, info = remove_duplicated_faces_raw(
-            mesh.vertices, mesh.faces, fins_only)
+        mesh.vertices, mesh.faces, fins_only
+    )
     return form_mesh(vertices, faces), info

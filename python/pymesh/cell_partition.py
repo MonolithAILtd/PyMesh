@@ -3,8 +3,9 @@ import numpy as np
 from .meshio import form_mesh
 from .meshutils import remove_isolated_vertices
 
+
 def partition_into_cells(mesh):
-    """ Resolve all-intersections of the input mesh and extract cell partitions
+    """Resolve all-intersections of the input mesh and extract cell partitions
     induced by the mesh.  A cell-partition is subset of the ambient space where
     any pair of points belonging the partition can be connected by a curve
     without ever going through any mesh faces.
@@ -40,10 +41,11 @@ def partition_into_cells(mesh):
     resolved_mesh.add_attribute("patches")
     resolved_mesh.set_attribute("patches", patch_ids)
     resolved_mesh.add_attribute("cells")
-    resolved_mesh.set_attribute("cells", cell_ids[:,0].ravel())
+    resolved_mesh.set_attribute("cells", cell_ids[:, 0].ravel())
     resolved_mesh.add_attribute("winding_number")
-    resolved_mesh.set_attribute("winding_number",
-            partition.get_winding_number()[:,0].ravel())
+    resolved_mesh.set_attribute(
+        "winding_number", partition.get_winding_number()[:, 0].ravel()
+    )
 
     num_cells = partition.get_num_cells()
     cell_faces = [partition.get_cell_faces(i) for i in range(num_cells)]
@@ -51,4 +53,3 @@ def partition_into_cells(mesh):
     cells = [remove_isolated_vertices(m)[0] for m in cells]
 
     return resolved_mesh, cells
-

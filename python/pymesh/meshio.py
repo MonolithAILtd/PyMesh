@@ -6,8 +6,9 @@ import PyMesh
 
 from .save_svg import save_svg
 
+
 def load_mesh(filename, extension_hint=None, drop_zero_dim=False):
-    """ Load mesh from a file.
+    """Load mesh from a file.
 
     Args:
         filename: Input filename.  File format is auto detected based on
@@ -33,9 +34,10 @@ def load_mesh(filename, extension_hint=None, drop_zero_dim=False):
         factory.drop_zero_dim()
     return Mesh(factory.create())
 
+
 def deduce_face_type(faces, voxels):
     if faces is None or faces.ndim == 1 or len(faces) == 0:
-        assert(voxels is not None and voxels.ndim == 2)
+        assert voxels is not None and voxels.ndim == 2
         if voxels.shape[1] == 4:
             faces = np.zeros((0, 3))
         elif voxels.shape[1] == 8:
@@ -46,9 +48,10 @@ def deduce_face_type(faces, voxels):
             raise NotImplementedError("Face type cannot be deduced from voxel.")
     return faces
 
+
 def deduce_voxel_type(faces, voxels):
     if voxels is None or voxels.ndim == 1 or len(voxels) == 0:
-        assert(faces.ndim == 2)
+        assert faces.ndim == 2
         if faces.shape[1] == 3:
             voxels = np.zeros((0, 4))
         elif faces.shape[1] == 4:
@@ -59,8 +62,9 @@ def deduce_voxel_type(faces, voxels):
             raise NotImplementedError("Voxel type cannot be deduced from face.")
     return voxels
 
+
 def form_mesh(vertices, faces, voxels=None):
-    """ Convert raw mesh data into a Mesh object.
+    """Convert raw mesh data into a Mesh object.
 
     Args:
         vertices (`numpy.ndarray`): ndarray of floats with size (num_vertices,
@@ -93,8 +97,9 @@ def form_mesh(vertices, faces, voxels=None):
     factory.load_matrices(vertices, faces, voxels)
     return Mesh(factory.create())
 
+
 def save_mesh_raw(filename, vertices, faces, voxels=None, **setting):
-    """ Save raw mesh to file.
+    """Save raw mesh to file.
 
     Args:
         filename (:py:class:`str`): Output file.  File format is auto detected from extension.
@@ -119,11 +124,11 @@ def save_mesh_raw(filename, vertices, faces, voxels=None, **setting):
     faces = deduce_face_type(faces, voxels)
 
     if not isinstance(vertices, np.ndarray):
-        vertices = np.array(vertices, copy=False, order='C')
+        vertices = np.array(vertices, copy=False, order="C")
     if not isinstance(faces, np.ndarray):
-        faces = np.array(faces, copy=False, order='C')
+        faces = np.array(faces, copy=False, order="C")
     if not isinstance(voxels, np.ndarray):
-        voxels = np.array(voxels, copy=False, order='C')
+        voxels = np.array(voxels, copy=False, order="C")
 
     dim = vertices.shape[1]
     num_vertex_per_face = faces.shape[1]
@@ -135,15 +140,17 @@ def save_mesh_raw(filename, vertices, faces, voxels=None, **setting):
     if setting.get("use_float", False):
         writer.use_float()
     writer.write(
-            vertices.ravel(order="C"),
-            faces.ravel(order="C"),
-            voxels.ravel(order="C"),
-            dim,
-            num_vertex_per_face,
-            num_vertex_per_voxel)
+        vertices.ravel(order="C"),
+        faces.ravel(order="C"),
+        voxels.ravel(order="C"),
+        dim,
+        num_vertex_per_face,
+        num_vertex_per_voxel,
+    )
+
 
 def save_mesh(filename, mesh, *attributes, **setting):
-    """ Save mesh to file.
+    """Save mesh to file.
 
     Args:
         filename (:py:class:`str`): Output file.  File format is auto detected from extension.

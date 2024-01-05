@@ -4,8 +4,9 @@ from .meshio import form_mesh
 from .meshutils import remove_isolated_vertices_raw
 from .meshutils import remove_degenerated_triangles_raw
 
+
 def compute_outer_hull(mesh, engine="auto", all_layers=False):
-    """ Compute the outer hull of the input mesh.
+    """Compute the outer hull of the input mesh.
 
     Args:
         engine (:py:class:`str`): (optional) Outer hull engine name.  Valid engines are:
@@ -31,8 +32,8 @@ def compute_outer_hull(mesh, engine="auto", all_layers=False):
         * ``face_sources``: A per-face attribute that specifies the index of the
           source face in the input mesh.
     """
-    assert(mesh.dim == 3)
-    assert(mesh.vertex_per_face == 3)
+    assert mesh.dim == 3
+    assert mesh.vertex_per_face == 3
 
     if engine == "auto":
         engine = "igl"
@@ -56,7 +57,8 @@ def compute_outer_hull(mesh, engine="auto", all_layers=False):
         o_ori_faces = ori_faces[selected_faces]
         o_vertices, o_faces, __ = remove_isolated_vertices_raw(vertices, o_faces)
         o_vertices, o_faces, info = remove_degenerated_triangles_raw(
-                o_vertices, o_faces)
+            o_vertices, o_faces
+        )
         o_flipped = o_flipped[info["ori_face_indices"]]
         o_ori_faces = o_ori_faces[info["ori_face_indices"]]
         outer_hull = form_mesh(o_vertices, o_faces)
@@ -73,4 +75,3 @@ def compute_outer_hull(mesh, engine="auto", all_layers=False):
         result = [extract_layer(i) for i in range(num_layers)]
 
     return result
-

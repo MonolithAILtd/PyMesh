@@ -3,6 +3,7 @@ from pymesh import orient_3D, orient_2D, in_circle, in_sphere
 
 import numpy as np
 
+
 class PredicatesTest(TestCase):
     def test_positive_oriented_3D(self):
         p1 = np.array([0, 0, 0])
@@ -16,7 +17,7 @@ class PredicatesTest(TestCase):
         p1 = np.array([0, 0, 0])
         p2 = np.array([1, 0, 0])
         p3 = np.array([0, 1, 0])
-        p4 = np.array([0, 0,-1])
+        p4 = np.array([0, 0, -1])
 
         self.assertLess(0.0, orient_3D(p1, p2, p3, p4))
 
@@ -77,7 +78,7 @@ class PredicatesTest(TestCase):
         p1 = [-1.0, 0.0, 0.0]
         p2 = [1.0, 0.0, 0.0]
         p3 = [0.0, 1.0, 0.0]
-        p4 = [0.0, 0.0,-1.0]
+        p4 = [0.0, 0.0, -1.0]
         p_in = [0, 0, 0]
         p_out = [10, 0, 0]
         p_on = [0, -1, 0]

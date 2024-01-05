@@ -3,8 +3,9 @@ from PyMesh import IsolatedVertexRemoval
 from .. import timethis
 from ..meshio import form_mesh
 
+
 def remove_isolated_vertices_raw(vertices, elements):
-    """ Remove isolated vertices.
+    """Remove isolated vertices.
 
     Args:
         vertices (``numpy.ndarray``): Vertex array with one vertex per row.
@@ -29,13 +30,14 @@ def remove_isolated_vertices_raw(vertices, elements):
     vertices = remover.get_vertices()
     elements = remover.get_faces()
     info = {
-            "num_vertex_removed": num_removed,
-            "ori_vertex_index": remover.get_ori_vertex_indices().ravel(),
-            }
+        "num_vertex_removed": num_removed,
+        "ori_vertex_index": remover.get_ori_vertex_indices().ravel(),
+    }
     return vertices, elements, info
 
+
 def remove_isolated_vertices(mesh):
-    """ Wrapper function of :func:`remove_isolated_vertices_raw`.
+    """Wrapper function of :func:`remove_isolated_vertices_raw`.
 
     Args:
         mesh (:class:`Mesh`): Input mesh.
@@ -54,12 +56,11 @@ def remove_isolated_vertices(mesh):
               vertex array.
     """
     if mesh.num_voxels == 0:
-        vertices, faces, info = remove_isolated_vertices_raw(
-                mesh.vertices, mesh.faces)
+        vertices, faces, info = remove_isolated_vertices_raw(mesh.vertices, mesh.faces)
         output_mesh = form_mesh(vertices, faces)
     else:
         vertices, voxels, info = remove_isolated_vertices_raw(
-                mesh.vertices, mesh.voxels)
+            mesh.vertices, mesh.voxels
+        )
         output_mesh = form_mesh(vertices, np.zeros((0, 3)), voxels)
     return output_mesh, info
-

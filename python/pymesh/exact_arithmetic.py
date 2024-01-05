@@ -1,4 +1,5 @@
 import PyMesh
+
 try:
     from PyMesh import Gmpz
     from PyMesh import Gmpq
@@ -108,6 +109,7 @@ try:
     .. _GMP: https://gmplib.org/
     """
 except:
+
     class Gmpz:
         def __init__(self):
             raise NotImplementedError("Gmpz feature is disabled")
@@ -115,4 +117,3 @@ except:
     class Gmpq:
         def __init__(self):
             raise NotImplementedError("Gmpq feature is disabled")
-

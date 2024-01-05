@@ -1,7 +1,8 @@
 import PyMesh
 
+
 def compute_winding_number(mesh, queries, engine="auto"):
-    """ Compute winding number with respect to `mesh` at `queries`.
+    """Compute winding number with respect to `mesh` at `queries`.
 
     Args:
         mesh (:class:`Mesh`): The mesh for which winding number is evaluated.
@@ -22,8 +23,8 @@ def compute_winding_number(mesh, queries, engine="auto"):
     .. _`generalized winding number`: https://libigl.github.io/tutorial/#generalized-winding-number
     .. _`fast winding number`: http://www.dgp.toronto.edu/projects/fast-winding-numbers/
     """
-    assert(mesh.dim == 3)
-    assert(mesh.vertex_per_face == 3)
+    assert mesh.dim == 3
+    assert mesh.vertex_per_face == 3
 
     if engine == "auto":
         engine = "igl"

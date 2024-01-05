@@ -5,6 +5,7 @@ from pymesh.misc import Quaternion
 
 import numpy as np
 
+
 class CSGTreeTest(TestCase):
     def test_single_mesh(self):
         mesh = generate_box_mesh(np.zeros(3), np.ones(3))

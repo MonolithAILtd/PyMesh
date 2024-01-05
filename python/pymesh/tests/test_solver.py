@@ -1,11 +1,11 @@
 # TODO: re-enable once sparse solvers are stable.
-#from pymesh import SparseSolver
-#from pymesh.TestCase import TestCase
+# from pymesh import SparseSolver
+# from pymesh.TestCase import TestCase
 #
-#import numpy as np
-#import scipy.sparse
+# import numpy as np
+# import scipy.sparse
 #
-#class SparseSolverTest(TestCase):
+# class SparseSolverTest(TestCase):
 #    def test_identity(self):
 #        N = 1000
 #        I = scipy.sparse.identity(N)

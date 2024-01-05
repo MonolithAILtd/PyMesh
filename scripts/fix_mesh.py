@@ -28,8 +28,7 @@ def fix_mesh(mesh, detail="normal"):
     num_vertices = mesh.num_vertices
     while True:
         mesh, __ = pymesh.collapse_short_edges(mesh, 1e-6)
-        mesh, __ = pymesh.collapse_short_edges(mesh, target_len,
-                                               preserve_feature=True)
+        mesh, __ = pymesh.collapse_short_edges(mesh, target_len, preserve_feature=True)
         mesh, __ = pymesh.remove_obtuse_triangles(mesh, 150.0, 100)
         if mesh.num_vertices == num_vertices:
             break
@@ -37,7 +36,8 @@ def fix_mesh(mesh, detail="normal"):
         num_vertices = mesh.num_vertices
         print("#v: {}".format(num_vertices))
         count += 1
-        if count > 10: break
+        if count > 10:
+            break
 
     mesh = pymesh.resolve_self_intersection(mesh)
     mesh, __ = pymesh.remove_duplicated_faces(mesh)
@@ -66,15 +66,17 @@ def old_fix_mesh(vertices, faces, detail="normal"):
     num_vertices = len(vertices)
     while True:
         vertices, faces = pymesh.collapse_short_edges(vertices, faces, 1e-6)
-        vertices, faces = pymesh.collapse_short_edges(vertices, faces,
-                                                      target_len, preserve_feature=True)
+        vertices, faces = pymesh.collapse_short_edges(
+            vertices, faces, target_len, preserve_feature=True
+        )
         vertices, faces = pymesh.remove_obtuse_triangles(vertices, faces, 150.0, 100)
         if num_vertices == len(vertices):
             break
         num_vertices = len(vertices)
         print("#v: {}".format(num_vertices))
         count += 1
-        if count > 10: break
+        if count > 10:
+            break
 
     vertices, faces = pymesh.resolve_self_intersection(vertices, faces)
     vertices, faces = pymesh.remove_duplicated_faces(vertices, faces)
@@ -86,12 +88,14 @@ def old_fix_mesh(vertices, faces, detail="normal"):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(
-        description=__doc__)
-    parser.add_argument("--timing", help="print timing info",
-                        action="store_true")
-    parser.add_argument("--detail", help="level of detail to preserve",
-                        choices=["low", "normal", "high"], default="normal")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--timing", help="print timing info", action="store_true")
+    parser.add_argument(
+        "--detail",
+        help="level of detail to preserve",
+        choices=["low", "normal", "high"],
+        default="normal",
+    )
     parser.add_argument("in_mesh", help="input mesh")
     parser.add_argument("out_mesh", help="output mesh")
     return parser.parse_args()

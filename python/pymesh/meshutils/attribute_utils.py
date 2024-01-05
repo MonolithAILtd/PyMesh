@@ -1,8 +1,9 @@
 import PyMesh
 import numpy as np
 
+
 def convert_to_vertex_attribute(mesh, attr):
-    """ Convert attribute ``attr`` from either per-face or per-voxel attribute
+    """Convert attribute ``attr`` from either per-face or per-voxel attribute
     into per-vertex attribute.
 
     Args:
@@ -15,14 +16,16 @@ def convert_to_vertex_attribute(mesh, attr):
     """
     return PyMesh.convert_to_vertex_attribute(mesh.raw_mesh, attr)
 
+
 def convert_to_vertex_attribute_from_name(mesh, name):
-    """ Same as :py:func:`convert_to_vertex_attribute` except looking up
+    """Same as :py:func:`convert_to_vertex_attribute` except looking up
     attribute values from the input ``mesh`` using ``name``.
     """
     return PyMesh.convert_to_vertex_attribute_from_name(mesh.raw_mesh, name)
 
+
 def convert_to_face_attribute(mesh, attr):
-    """ Convert attribute ``attr`` from either per-vertex or per-voxel attribute
+    """Convert attribute ``attr`` from either per-vertex or per-voxel attribute
     into per-face attribute.
 
     Args:
@@ -35,14 +38,16 @@ def convert_to_face_attribute(mesh, attr):
     """
     return PyMesh.convert_to_face_attribute(mesh.raw_mesh, attr)
 
+
 def convert_to_face_attribute_from_name(mesh, name):
-    """ Same as :py:func:`convert_to_face_attribute` except looking up
+    """Same as :py:func:`convert_to_face_attribute` except looking up
     attribute values from the input ``mesh`` using ``name``.
     """
     return PyMesh.convert_to_face_attribute_from_name(mesh.raw_mesh, name)
 
+
 def convert_to_voxel_attribute(mesh, attr):
-    """ Convert attribute ``attr`` from either per-vertex or per-face attribute
+    """Convert attribute ``attr`` from either per-vertex or per-face attribute
     into per-voxel attribute.
 
     Args:
@@ -55,8 +60,9 @@ def convert_to_voxel_attribute(mesh, attr):
     """
     return PyMesh.convert_to_voxel_attribute(mesh.raw_mesh, attr)
 
+
 def convert_to_voxel_attribute_from_name(mesh, name):
-    """ Same as :py:func:`convert_to_voxel_attribute` except looking up
+    """Same as :py:func:`convert_to_voxel_attribute` except looking up
     attribute values from the input ``mesh`` using ``name``.
     """
     return PyMesh.convert_to_voxel_attribute_from_name(mesh.raw_mesh, name)

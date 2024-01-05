@@ -3,8 +3,9 @@ import numpy as np
 
 from .Mesh import Mesh
 
+
 def compress(mesh, engine_name="draco"):
-    """ Compress mesh data.
+    """Compress mesh data.
 
     Args:
         mesh (:class:`Mesh`): Input mesh.
@@ -32,8 +33,9 @@ def compress(mesh, engine_name="draco"):
     data = engine.compress(mesh.raw_mesh)
     return data
 
+
 def decompress(data, engine_name="draco"):
-    """ Decompress mesh data.
+    """Decompress mesh data.
 
     Args:
         data (``string``): Binary string representing compressed mesh.

@@ -4,6 +4,7 @@ from PyMesh import vertex_normals
 from PyMesh import edge_normals
 from PyMesh import orient_outward
 
+
 def orient_faces(vertices, faces, outward=True):
     oriented_faces = orient_outward(vertices, faces)
     if not outward:

@@ -1,8 +1,9 @@
 import PyMesh
 from ..meshio import form_mesh
 
+
 def subdivide(mesh, order=1, method="simple"):
-    """ Subdivide the input mesh.
+    """Subdivide the input mesh.
 
     Args:
         mesh: Input triangle mesh.

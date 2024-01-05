@@ -3,8 +3,9 @@ import numpy as np
 from ..meshio import form_mesh
 from PyMesh import LongEdgeRemoval
 
+
 def split_long_edges_raw(vertices, faces, max_edge_length):
-    """ Split long edges.
+    """Split long edges.
 
     Args:
         vertices (``numpy.ndarray``): Vertex array with one vertex per row.
@@ -29,8 +30,9 @@ def split_long_edges_raw(vertices, faces, max_edge_length):
     faces = remover.get_faces()
     return vertices, faces, {"ori_face_indices": remover.get_ori_faces()}
 
+
 def split_long_edges(mesh, max_edge_length):
-    """ Wrapper function of :func:`split_long_edges_raw`.
+    """Wrapper function of :func:`split_long_edges_raw`.
 
     Args:
         mesh (:class:`Mesh`): Input mesh.
@@ -44,5 +46,6 @@ def split_long_edges(mesh, max_edge_length):
             * ``info``: Additional information dictionary.
     """
     vertices, faces, info = split_long_edges_raw(
-            mesh.vertices, mesh.faces, max_edge_length)
+        mesh.vertices, mesh.faces, max_edge_length
+    )
     return form_mesh(vertices, faces), info

@@ -3,8 +3,9 @@ import numpy as np
 from numpy.linalg import norm
 from .meshutils import remove_duplicated_vertices_raw
 
+
 def snap_rounding(points, segments, pixel_size, use_iterative=True):
-    """ 2D snap rounding.
+    """2D snap rounding.
 
     Args:
         points (``numpy.ndarray``): Input points.
@@ -27,6 +28,6 @@ def snap_rounding(points, segments, pixel_size, use_iterative=True):
     edges = engine.edges
 
     vertices, edges, __ = remove_duplicated_vertices_raw(
-            vertices, edges, tol=pixel_size/2)
+        vertices, edges, tol=pixel_size / 2
+    )
     return vertices, edges
-

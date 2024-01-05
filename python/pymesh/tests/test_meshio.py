@@ -4,9 +4,11 @@ from pymesh import hex_to_tet
 from pymesh import form_mesh
 import numpy as np
 
+
 class MeshIOTest(TestCase):
-    def write_and_load(self, mesh, filename,
-            attr_names=[], use_ascii=False, anonymous=False):
+    def write_and_load(
+        self, mesh, filename, attr_names=[], use_ascii=False, anonymous=False
+    ):
         setting = {}
         setting["ascii"] = use_ascii
         setting["anonymous"] = anonymous
@@ -29,12 +31,12 @@ class MeshIOTest(TestCase):
         mesh = self.get_box_mesh()
         mesh.add_attribute("vertex_index")
 
-        mesh2 = self.write_and_load(mesh, "cube.ply",
-                attr_names=["vertex_index"])
+        mesh2 = self.write_and_load(mesh, "cube.ply", attr_names=["vertex_index"])
         self.assert_mesh_equal(mesh, mesh2, attr_names=["vertex_index"])
 
-        mesh3 = self.write_and_load(mesh, "cube.ply",
-                attr_names=["vertex_index"], use_ascii=True)
+        mesh3 = self.write_and_load(
+            mesh, "cube.ply", attr_names=["vertex_index"], use_ascii=True
+        )
         self.assert_mesh_equal(mesh, mesh3, attr_names=["vertex_index"])
 
     def test_msh(self):
@@ -46,30 +48,31 @@ class MeshIOTest(TestCase):
         self.assertEqual(6, mesh.num_voxels)
         mesh.add_attribute("vertex_index")
 
-        mesh2 = self.write_and_load(mesh, "cube.msh",
-                attr_names=["vertex_index"])
+        mesh2 = self.write_and_load(mesh, "cube.msh", attr_names=["vertex_index"])
         self.assert_mesh_equal(mesh, mesh2, attr_names=["vertex_index"])
 
-        mesh3 = self.write_and_load(mesh, "cube.msh",
-                attr_names=["vertex_index"], use_ascii=True)
+        mesh3 = self.write_and_load(
+            mesh, "cube.msh", attr_names=["vertex_index"], use_ascii=True
+        )
         self.assert_mesh_equal(mesh, mesh3, attr_names=["vertex_index"])
 
     def test_anonymous(self):
-        vertices = np.array([
-            [0.0, 0.0, 0.0],
-            [1.0, 0.0, 0.0],
-            [0.0, 1.0, 0.0],
-            ])
+        vertices = np.array(
+            [
+                [0.0, 0.0, 0.0],
+                [1.0, 0.0, 0.0],
+                [0.0, 1.0, 0.0],
+            ]
+        )
         faces = np.array([[0, 1, 2]])
         mesh = form_mesh(vertices, faces)
 
         for ext in [".msh", ".obj", ".ply", ".mesh", ".off"]:
-            mesh1 = self.write_and_load(mesh,
-                    "anonymous_test{}".format(ext), use_ascii=True,
-                    anonymous=True)
+            mesh1 = self.write_and_load(
+                mesh, "anonymous_test{}".format(ext), use_ascii=True, anonymous=True
+            )
             self.assert_mesh_equal(mesh, mesh1)
-            mesh2 = self.write_and_load(mesh,
-                    "anonymous_test{}".format(ext), use_ascii=False,
-                    anonymous=True)
+            mesh2 = self.write_and_load(
+                mesh, "anonymous_test{}".format(ext), use_ascii=False, anonymous=True
+            )
             self.assert_mesh_equal(mesh, mesh2)
-

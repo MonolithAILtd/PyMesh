@@ -3,6 +3,7 @@ from .meshio import form_mesh
 import numpy as np
 from time import time
 
+
 def triangulate_beta(points, segments, engine="auto", with_timing=False):
     if engine == "auto":
         engine = "shewchuk_triangle"
@@ -42,7 +43,7 @@ def refine_triangulation(mesh, metrics=None, engine="auto", with_timing=False):
         start_time = time()
 
     if metrics is None:
-        engine.refine(np.zeros((0,1)))
+        engine.refine(np.zeros((0, 1)))
     else:
         engine.refine(metrics)
 
