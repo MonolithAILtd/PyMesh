@@ -2,8 +2,8 @@
 #pragma once
 #ifdef WITH_CGAL
 
-#include <vector>
 #include <set>
+#include <vector>
 
 #include <Core/EigenTypedef.h>
 #include <Math/MatrixUtils.h>
@@ -13,43 +13,43 @@
 namespace PyMesh {
 
 class SelfIntersection {
-    public:
-        typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
-        typedef CGAL::Point_3<Kernel>    Point_3;
-        typedef CGAL::Segment_3<Kernel>  Segment_3;
-        typedef CGAL::Triangle_3<Kernel> Triangle_3;
-        typedef std::vector<Point_3>     Points;
+public:
+  typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
+  typedef CGAL::Point_3<Kernel> Point_3;
+  typedef CGAL::Segment_3<Kernel> Segment_3;
+  typedef CGAL::Triangle_3<Kernel> Triangle_3;
+  typedef std::vector<Point_3> Points;
 
-    public:
-        SelfIntersection(const MatrixFr& vertices, const MatrixIr& faces);
+public:
+  SelfIntersection(const MatrixFr &vertices, const MatrixIr &faces);
 
-    public:
-        /**
-         * Detect triangle-triangle intersections for non-degenerated triangles.
-         */
-        void detect_self_intersection();
+public:
+  /**
+   * Detect triangle-triangle intersections for non-degenerated triangles.
+   */
+  void detect_self_intersection();
 
-        void clear();
+  void clear();
 
-        MatrixIr get_self_intersecting_pairs() const {
-            if (!m_intersecting_pairs.empty())
-                return MatrixUtils::rowstack(m_intersecting_pairs);
-            else
-                return MatrixIr::Zero(0, 2);
-        }
+  MatrixIr get_self_intersecting_pairs() const {
+    if (!m_intersecting_pairs.empty())
+      return MatrixUtils::rowstack(m_intersecting_pairs);
+    else
+      return MatrixIr::Zero(0, 2);
+  }
 
-    public:
-        void handle_intersection_candidate(size_t f_idx_1, size_t f_idx_2);
+public:
+  void handle_intersection_candidate(size_t f_idx_1, size_t f_idx_2);
 
-    private:
-        std::vector<size_t> topological_overlap(size_t id1, size_t id2) const;
+private:
+  std::vector<size_t> topological_overlap(size_t id1, size_t id2) const;
 
-    private:
-        std::vector<Vector2I> m_intersecting_pairs;
-        Points m_points;
-        MatrixIr m_faces;
+private:
+  std::vector<Vector2I> m_intersecting_pairs;
+  Points m_points;
+  MatrixIr m_faces;
 };
 
-}
+} // namespace PyMesh
 
 #endif

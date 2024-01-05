@@ -1,4 +1,5 @@
 add_library(PyMesh::Tools INTERFACE IMPORTED)
+message(Current Source DIR=${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(PyMesh::Tools
     INTERFACE
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -24,3 +25,4 @@ add_subdirectory(Tetrahedralization)
 add_subdirectory(SparseSolver)
 add_subdirectory(Wires)
 add_subdirectory(Envelope)
+add_subdirectory(ManifoldPlus)

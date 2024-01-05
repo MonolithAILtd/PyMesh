@@ -6,38 +6,34 @@
 namespace PyMesh {
 
 class PyMeshException : public std::exception {
-    public:
-        PyMeshException(const std::string& description) :
-            exception(), m_description(description) {}
-        virtual ~PyMeshException() throw() {}
+public:
+  PyMeshException(const std::string &description)
+      : exception(), m_description(description) {}
+  virtual ~PyMeshException() throw() {}
 
-    public:
-        virtual const char* what() const throw() {
-            return m_description.c_str();
-        }
+public:
+  virtual const char *what() const throw() { return m_description.c_str(); }
 
-    private:
-        std::string m_description;
+private:
+  std::string m_description;
 };
 
 class IOError : public PyMeshException {
-    public:
-        IOError(const std::string& description) :
-            PyMeshException(description) {}
-        virtual ~IOError() throw() {}
+public:
+  IOError(const std::string &description) : PyMeshException(description) {}
+  virtual ~IOError() throw() {}
 };
 
 class RuntimeError : public PyMeshException {
-    public:
-        RuntimeError(const std::string& description) :
-            PyMeshException(description) {}
-        virtual ~RuntimeError() throw() {}
+public:
+  RuntimeError(const std::string &description) : PyMeshException(description) {}
+  virtual ~RuntimeError() throw() {}
 };
 
 class NotImplementedError : public PyMeshException {
-    public:
-        NotImplementedError(const std::string& description) :
-            PyMeshException(description) {}
-        virtual ~NotImplementedError() throw() {}
+public:
+  NotImplementedError(const std::string &description)
+      : PyMeshException(description) {}
+  virtual ~NotImplementedError() throw() {}
 };
-}
+} // namespace PyMesh

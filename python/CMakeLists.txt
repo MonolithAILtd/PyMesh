@@ -1,4 +1,5 @@
 PYBIND11_ADD_MODULE(PyMesh module.cpp
+    PyMesh.cpp
     PyAABB.cpp
     PyBoolean.cpp
     PyCellPartition.cpp
@@ -11,7 +12,6 @@ PYBIND11_ADD_MODULE(PyMesh module.cpp
     PyHashGrid.cpp
     PyIGL.cpp
     PyMeshUtils.cpp
-    PyMesh.cpp
     PyMeshFactory.cpp
     PyMeshWriter.cpp
     PyOuterHull.cpp
@@ -25,7 +25,8 @@ PYBIND11_ADD_MODULE(PyMesh module.cpp
     PyMinkowskiSum.cpp
     PyVoxelGrid.cpp
     PyWindingNumber.cpp
-    PyWires.cpp)
+    PyWires.cpp
+    PyManifoldPlus.cpp)
 target_link_libraries(PyMesh PRIVATE
     PyMesh::Mesh
     PyMesh::Assembler
@@ -42,7 +43,8 @@ target_link_libraries(PyMesh PRIVATE
     PyMesh::Tetrahedralization
     PyMesh::Triangulation
     PyMesh::WindingNumber
-    PyMesh::Wires)
+    PyMesh::Wires
+    PyMesh::ManifoldPlus)
 
 if (TARGET PyMesh::CGAL)
     target_link_libraries(PyMesh PRIVATE PyMesh::CGAL)
