@@ -1,5 +1,5 @@
 import PyMesh
-from .Mesh import Mesh
+from .mesh import Mesh
 
 
 class VoxelGrid:

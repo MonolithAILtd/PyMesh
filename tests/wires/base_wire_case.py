@@ -1,7 +1,5 @@
-import os.path
-
 from tests.base_case import TestCase
-from pymesh.wires.WireNetwork import WireNetwork
+from pymesh.wires.wire_network import WireNetwork
 
 import numpy as np
 

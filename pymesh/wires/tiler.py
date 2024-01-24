@@ -1,8 +1,8 @@
 import numpy as np
 
 import PyMesh
-from .WireNetwork import WireNetwork
-from .Parameters import Parameters
+from .wire_network import WireNetwork
+from .parameters import Parameters
 
 
 class Tiler(object):

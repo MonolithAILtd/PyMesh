@@ -2,9 +2,9 @@ import math
 import numpy as np
 import numpy.linalg
 
-from ..SparseSolver import SparseSolver
+from ..sparse_solver import SparseSolver
 from ..triangle import triangle
-from ..Assembler import Assembler
+from ..assembler import Assembler
 from ..meshio import form_mesh
 
 

@@ -1,4 +1,4 @@
-from pymesh.SparseSolver import SparseSolver
+from pymesh.sparse_solver import SparseSolver
 from tests.base_case import TestCase
 
 import numpy as np

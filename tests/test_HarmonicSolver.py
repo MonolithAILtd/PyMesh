@@ -1,6 +1,6 @@
 from pymesh.meshutils import generate_icosphere
 from pymesh.tetgen import Tetgen
-from pymesh.HarmonicSolver import HarmonicSolver
+from pymesh.harmonic_solver import HarmonicSolver
 from pymesh.triangle import triangle
 from tests.base_case import TestCase
 

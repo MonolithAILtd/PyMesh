@@ -1,5 +1,5 @@
 import PyMesh
-from .Mesh import Mesh
+from .mesh import Mesh
 from .meshio import form_mesh
 
 

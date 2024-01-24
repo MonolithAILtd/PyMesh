@@ -1,4 +1,4 @@
-from pymesh.Assembler import Assembler
+from pymesh.assembler import Assembler
 from pymesh.meshio import form_mesh
 from pymesh.material import Material
 from tests.base_case import TestCase

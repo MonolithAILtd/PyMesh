@@ -1,6 +1,5 @@
 import PyMesh
 
-import numpy as np
 from .material import Material
 
 

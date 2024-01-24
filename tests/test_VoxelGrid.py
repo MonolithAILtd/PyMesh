@@ -1,5 +1,5 @@
 from tests.base_case import TestCase
-from pymesh.VoxelGrid import VoxelGrid
+from pymesh.voxel_grid import VoxelGrid
 from pymesh.meshutils import generate_icosphere
 
 

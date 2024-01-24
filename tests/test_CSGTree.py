@@ -1,5 +1,5 @@
 from tests.base_case import TestCase
-from pymesh.CSGTree import CSGTree
+from pymesh.csg_tree import CSGTree
 from pymesh.meshutils import generate_box_mesh
 
 import numpy as np

@@ -1,5 +1,5 @@
 from PyMesh import MeshCutter
-from ..Mesh import Mesh
+from ..mesh import Mesh
 
 import numpy as np
 

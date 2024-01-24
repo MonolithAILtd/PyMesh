@@ -1,7 +1,7 @@
 import numpy as np
 import os.path
 
-from .Mesh import Mesh
+from .mesh import Mesh
 import PyMesh
 
 from .save_svg import save_svg

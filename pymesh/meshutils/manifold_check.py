@@ -1,5 +1,5 @@
 import PyMesh
-from .. import Mesh
+from ..mesh import Mesh
 
 
 def is_vertex_manifold(mesh):

@@ -1,7 +1,6 @@
 import PyMesh
-import numpy as np
 
-from .Mesh import Mesh
+from .mesh import Mesh
 
 
 def compress(mesh, engine_name="draco"):
